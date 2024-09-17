@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:shop_user/constants/app_colors.dart';
+import 'package:provider/provider.dart';
+import 'package:shop_user/Providers/theme_provider.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
     return Scaffold(
-      backgroundColor: AppColors.lightScafoldColor,
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -20,9 +21,12 @@ class HomeScreen extends StatelessWidget {
             child: const Text('hello wolrd'),
           ),
           SwitchListTile(
-            title: Text('dark mode'),
-            value: false,
-            onChanged: (value) {},
+            title:
+                Text(themeProvider.getIsDarkTheme ? 'Dark mode' : 'Ligt mode'),
+            value: themeProvider.getIsDarkTheme,
+            onChanged: (value) {
+              themeProvider.setDarkTheme(themeValue: value);
+            },
           )
         ],
       ),

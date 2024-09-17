@@ -16,16 +16,17 @@ class ShopUser extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
-          create: (context) {
-            ThemeProvider();
-          },
+          create: (context) => ThemeProvider(),
         )
       ],
-      child: MaterialApp(
-        theme: Styles.themeData(isDarkTheme: false, context: context),
-        title: 'shop user',
-        home: HomeScreen(),
-      ),
+      child: Consumer<ThemeProvider>(builder: (context, themeProvider, child) {
+        return MaterialApp(
+          theme: Styles.themeData(
+              isDarkTheme: themeProvider.getIsDarkTheme, context: context),
+          title: 'shop user',
+          home: HomeScreen(),
+        );
+      }),
     );
   }
 }
