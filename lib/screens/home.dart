@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shop_user/Providers/theme_provider.dart';
+import 'package:shop_user/widgets/subtitle_text.dart';
+import 'package:shop_user/widgets/title_text.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -12,9 +14,9 @@ class HomeScreen extends StatelessWidget {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Text(
-            'hello world',
-            style: TextStyle(fontSize: 50, fontWeight: FontWeight.bold),
+          TitleText(label: 'this is title '),
+          const subTitleText(
+            label: 'hello world',
           ),
           ElevatedButton(
             onPressed: () {},

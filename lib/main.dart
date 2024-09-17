@@ -13,12 +13,14 @@ class ShopUser extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+      //final themeProvider = Provider.of<ThemeProvider>(context);
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
           create: (context) => ThemeProvider(),
         )
       ],
+      //we can use Consumer to use ThemePovider 
       child: Consumer<ThemeProvider>(builder: (context, themeProvider, child) {
         return MaterialApp(
           theme: Styles.themeData(
