@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shop_user/constants/theme_data.dart';
 import 'package:shop_user/screens/home.dart';
 
 void main() {
@@ -10,7 +11,8 @@ class ShopUser extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return  MaterialApp(
+      theme: Styles.themeData(isDarkTheme: false, context: context),
       title: 'shop user',
       home: HomeScreen(),
     );
