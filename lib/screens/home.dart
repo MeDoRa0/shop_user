@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shop_user/constants/app_colors.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -6,7 +7,9 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.lightScafoldColor,
       body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           const Text(
             'hello world',
@@ -17,6 +20,7 @@ class HomeScreen extends StatelessWidget {
             child: const Text('hello wolrd'),
           ),
           SwitchListTile(
+            title: Text('dark mode'),
             value: false,
             onChanged: (value) {},
           )
