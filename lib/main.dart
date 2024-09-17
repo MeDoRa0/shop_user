@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:shop_user/Providers/theme_provider.dart';
 import 'package:shop_user/constants/theme_data.dart';
 import 'package:shop_user/screens/home.dart';
 
@@ -11,10 +13,19 @@ class ShopUser extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  MaterialApp(
-      theme: Styles.themeData(isDarkTheme: false, context: context),
-      title: 'shop user',
-      home: HomeScreen(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (context) {
+            ThemeProvider();
+          },
+        )
+      ],
+      child: MaterialApp(
+        theme: Styles.themeData(isDarkTheme: false, context: context),
+        title: 'shop user',
+        home: HomeScreen(),
+      ),
     );
   }
 }
