@@ -14,8 +14,8 @@ class HomeScreen extends StatelessWidget {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          TitleText(label: 'this is title '),
-          const subTitleText(
+          const TitleText(label: 'this is title '),
+          const SubTitleText(
             label: 'hello world',
           ),
           ElevatedButton(
