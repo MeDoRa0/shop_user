@@ -32,7 +32,7 @@ class _RootScreenState extends State<RootScreen> {
     return Scaffold(
       bottomNavigationBar: ClipRRect(
         borderRadius: const BorderRadius.only(
-          topLeft: const Radius.circular(20),
+          topLeft: Radius.circular(20),
           topRight: Radius.circular(20),
         ),
         child: NavigationBar(
