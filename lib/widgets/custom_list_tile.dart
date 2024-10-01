@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:shop_user/constants/assets.dart';
 import 'package:shop_user/widgets/subtitle_text.dart';
 
 class CustomListTile extends StatelessWidget {

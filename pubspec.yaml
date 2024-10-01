@@ -29,10 +29,13 @@ environment:
 # versions available, run `flutter pub outdated`.
 dependencies:
   cupertino_icons: ^1.0.8
+  dio: ^5.7.0
+  fancy_shimmer_image: ^2.0.3
   flutter:
     sdk: flutter
   provider: ^6.1.2
   shared_preferences: ^2.3.2
+  shimmer: ^3.0.0
 
 dev_dependencies:
   flutter_lints: ^4.0.0
@@ -61,11 +64,6 @@ flutter_assets:
   output_path: lib/constants/
   filename: assets.dart
   field_prefix: null
-  
-    
-
-
-  
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
   # For details regarding adding assets from package dependencies, see
