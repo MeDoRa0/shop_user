@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shop_user/constants/assets.dart';
+import 'package:shop_user/widgets/bottom_checkout.dart';
 import 'package:shop_user/widgets/cart_widget.dart';
 import 'package:shop_user/widgets/empty_cart.dart';
 import 'package:shop_user/widgets/title_text.dart';
@@ -11,6 +12,7 @@ class CartScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      bottomSheet: const BottomCheckout(),
       body: isEmpty
           ? const EmptyScreen(
               imagePath: Assets.imagesBagShoppingCart,
