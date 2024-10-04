@@ -1,7 +1,7 @@
-import 'dart:developer';
-
+import 'package:dynamic_height_grid_view/dynamic_height_grid_view.dart';
 import 'package:flutter/material.dart';
 import 'package:shop_user/constants/assets.dart';
+import 'package:shop_user/widgets/product_item.dart';
 import 'package:shop_user/widgets/title_text.dart';
 
 class SearchScreen extends StatefulWidget {
@@ -63,10 +63,19 @@ class _SearchScreenState extends State<SearchScreen> {
                   ),
                 ),
                 onChanged: (value) {},
-                onSubmitted: (value) {
-                  log('${searchTextController.text}');
-                },
+                onSubmitted: (value) {},
               ),
+              const SizedBox(
+                height: 16,
+              ),
+              Expanded(
+                child: DynamicHeightGridView(
+                    itemCount: 222,
+                    builder: (context, index) {
+                      return const ProductItem();
+                    },
+                    crossAxisCount: 2),
+              )
             ],
           ),
         ),

@@ -1,5 +1,6 @@
 import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
+import 'package:shop_user/constants/app_constants.dart';
 import 'package:shop_user/widgets/quantity_bottom_sheet.dart';
 import 'package:shop_user/widgets/subtitle_text.dart';
 import 'package:shop_user/widgets/title_text.dart';
@@ -17,8 +18,7 @@ class CartWidget extends StatelessWidget {
           child: Row(
             children: [
               FancyShimmerImage(
-                imageUrl:
-                    'https://th.bing.com/th/id/R.77eed415b01a3ec4f6cb7758a5a2a6d4?rik=XKDGn49n844u4Q&riu=http%3a%2f%2fpluspng.com%2fimg-png%2fshoes-png-nike-shoes-transparent-background-800.png&ehk=ZvKLgGJIAl%2fJYtcu4emEZimity8VBQnk3UNcaW8MbLQ%3d&risl=&pid=ImgRaw&r=0',
+                imageUrl:AppConstants.productImageUrl,
                 height: size.height * 0.2,
                 width: size.width * 0.4,
               ),
