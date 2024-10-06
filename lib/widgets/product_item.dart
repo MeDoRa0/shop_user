@@ -6,14 +6,9 @@ import 'package:shop_user/constants/app_constants.dart';
 import 'package:shop_user/widgets/subtitle_text.dart';
 import 'package:shop_user/widgets/title_text.dart';
 
-class ProductItem extends StatefulWidget {
+class ProductItem extends StatelessWidget {
   const ProductItem({super.key});
 
-  @override
-  State<ProductItem> createState() => _ProductItemState();
-}
-
-class _ProductItemState extends State<ProductItem> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;

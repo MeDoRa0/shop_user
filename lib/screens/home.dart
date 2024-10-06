@@ -1,8 +1,9 @@
-import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
 import 'package:shop_user/constants/app_constants.dart';
 import 'package:shop_user/constants/assets.dart';
 import 'package:shop_user/widgets/app_name_text.dart';
+import 'package:shop_user/widgets/categories_widget.dart';
+import 'package:shop_user/widgets/home_banners.dart';
 import 'package:shop_user/widgets/latest_arrival.dart';
 import 'package:shop_user/widgets/title_text.dart';
 
@@ -11,8 +12,6 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-
     return Scaffold(
       appBar: AppBar(
         title: const AppNameText(),
@@ -21,58 +20,46 @@ class HomeScreen extends StatelessWidget {
           child: Image.asset(Assets.imagesBagShoppingCart),
         ),
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(
-            height: size.height * 0.20,
-            child: Swiper(
-              autoplay: true,
-              duration: 300,
-              itemBuilder: (BuildContext context, int index) {
-                return Image.asset(
-                  AppConstants.bannarsImages[index],
-                  fit: BoxFit.fill,
-                );
-              },
-              itemCount: AppConstants.bannarsImages.length,
-              pagination: const SwiperPagination(
-                alignment: Alignment.bottomCenter,
-                builder: DotSwiperPaginationBuilder(
-                  color: Colors.grey,
-                  activeColor: Colors.blue,
-                ),
-              ),
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const HomeBannars(),
+            const SizedBox(
+              height: 16,
             ),
-          ),
-          const SizedBox(
-            height: 16,
-          ),
-          const Padding(
-            padding: EdgeInsets.only(left: 8),
-            child: TitleText(label: 'Latest arrival'),
-          ),
-          const SizedBox(
-            height: 16,
-          ),
-          SizedBox(
-            height: size.height * 0.2,
-            child: ListView.builder(
-              itemCount: 5,
-              scrollDirection: Axis.horizontal,
-              itemBuilder: (context, index) {
-                return const LatestArrival();
-              },
+            const Padding(
+              padding: EdgeInsets.only(left: 8),
+              child: TitleText(label: 'Latest arrival'),
             ),
-          ),
-          const SizedBox(
-            height: 16,
-          ),
-          const Padding(
-            padding: EdgeInsets.only(left: 8),
-            child: TitleText(label: 'Categories'),
-          ),
-        ],
+            const SizedBox(
+              height: 16,
+            ),
+            const LatestArrival(),
+            const SizedBox(
+              height: 16,
+            ),
+            const Padding(
+              padding: EdgeInsets.only(left: 8),
+              child: TitleText(label: 'Categories'),
+            ),
+            const SizedBox(
+              height: 16,
+            ),
+            GridView.count(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                crossAxisCount: 4,
+                children: List.generate(
+                  AppConstants.categoriesList.length,
+                  (index) {
+                    return CategoriesWidget(
+                        image: AppConstants.categoriesList[index].image,
+                        name: AppConstants.categoriesList[index].name);
+                  },
+                ))
+          ],
+        ),
       ),
     );
   }
