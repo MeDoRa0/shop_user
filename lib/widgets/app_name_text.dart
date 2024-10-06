@@ -4,7 +4,7 @@ import 'package:shop_user/constants/app_colors.dart';
 import 'package:shop_user/widgets/title_text.dart';
 
 class AppNameText extends StatelessWidget {
-  const AppNameText({super.key, this.fontSize = 30});
+  const AppNameText({super.key, this.fontSize = 20});
 
   final double fontSize;
 

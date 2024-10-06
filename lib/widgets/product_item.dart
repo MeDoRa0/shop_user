@@ -24,8 +24,9 @@ class _ProductItemState extends State<ProductItem> {
       child: Container(
         padding: const EdgeInsets.all(8),
         decoration: BoxDecoration(
-            border: Border.all(color: Colors.grey, width: 2),
-            borderRadius: BorderRadius.circular(12)),
+          border: Border.all(color: Colors.grey, width: 2),
+          borderRadius: BorderRadius.circular(12),
+        ),
         child: Column(
           children: [
             FancyShimmerImage(
@@ -35,7 +36,12 @@ class _ProductItemState extends State<ProductItem> {
             ),
             Row(
               children: [
-                Flexible(child: TitleText(label: 'nike sneakers p05' * 10)),
+                Flexible(
+                  child: TitleText(
+                    label: 'nike sneakers p05' * 10,
+                    maxLines: 2,
+                  ),
+                ),
                 IconButton(
                   onPressed: () {},
                   icon: const Icon(Icons.favorite),
@@ -45,7 +51,9 @@ class _ProductItemState extends State<ProductItem> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Flexible(child: SubTitleText(label: '\$45')),
+                const Flexible(
+                  child: SubTitleText(label: '\$45'),
+                ),
                 IconButton(
                   onPressed: () {},
                   icon: const Icon(Icons.add_shopping_cart),

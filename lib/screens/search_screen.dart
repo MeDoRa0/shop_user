@@ -1,30 +1,12 @@
 import 'package:dynamic_height_grid_view/dynamic_height_grid_view.dart';
 import 'package:flutter/material.dart';
 import 'package:shop_user/constants/assets.dart';
+import 'package:shop_user/widgets/custom_text_field.dart';
 import 'package:shop_user/widgets/product_item.dart';
 import 'package:shop_user/widgets/title_text.dart';
 
-class SearchScreen extends StatefulWidget {
+class SearchScreen extends StatelessWidget {
   const SearchScreen({super.key});
-
-  @override
-  State<SearchScreen> createState() => _SearchScreenState();
-}
-
-class _SearchScreenState extends State<SearchScreen> {
-  late TextEditingController searchTextController;
-  @override
-  void initState() {
-    searchTextController = TextEditingController();
-    super.initState();
-  }
-
-//  we must use dispose after initestate so will stop it in memory
-  @override
-  void dispose() {
-    searchTextController.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,24 +29,7 @@ class _SearchScreenState extends State<SearchScreen> {
           padding: const EdgeInsets.all(8.0),
           child: Column(
             children: [
-              TextField(
-                controller: searchTextController,
-                decoration: InputDecoration(
-                  filled: true,
-                  prefixIcon: const Icon(Icons.search),
-                  suffixIcon: IconButton(
-                    onPressed: () {
-                      setState(() {
-                        searchTextController.clear();
-                        FocusScope.of(context).unfocus();
-                      });
-                    },
-                    icon: const Icon(Icons.clear),
-                  ),
-                ),
-                onChanged: (value) {},
-                onSubmitted: (value) {},
-              ),
+              const CustomTextField(),
               const SizedBox(
                 height: 16,
               ),
