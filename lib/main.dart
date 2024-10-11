@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:shop_user/Providers/theme_provider.dart';
 import 'package:shop_user/constants/theme_data.dart';
 import 'package:shop_user/root_screen.dart';
+import 'package:shop_user/screens/inner_screens/product_details.dart';
 
 void main() {
   runApp(const ShopUser());
@@ -27,6 +28,9 @@ class ShopUser extends StatelessWidget {
               isDarkTheme: themeProvider.getIsDarkTheme, context: context),
           title: 'shop user',
           home: const RootScreen(),
+          routes: {
+            ProductDetails.routName: (context) => const ProductDetails(),
+          },
         );
       }),
     );

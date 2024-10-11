@@ -1,8 +1,7 @@
-import 'dart:developer';
-
 import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
 import 'package:shop_user/constants/app_constants.dart';
+import 'package:shop_user/screens/inner_screens/product_details.dart';
 import 'package:shop_user/widgets/subtitle_text.dart';
 import 'package:shop_user/widgets/title_text.dart';
 
@@ -13,8 +12,8 @@ class ProductItem extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return InkWell(
-      onTap: () {
-        log('navigate to product details');
+      onTap: () async {
+        await Navigator.pushNamed(context, ProductDetails.routName);
       },
       child: Container(
         padding: const EdgeInsets.all(8),
