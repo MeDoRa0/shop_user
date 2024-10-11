@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:shop_user/root_screen.dart';
+import 'package:shop_user/screens/home.dart';
 import 'package:shop_user/widgets/subtitle_text.dart';
 import 'package:shop_user/widgets/title_text.dart';
 
@@ -56,7 +58,9 @@ class EmptyScreen extends StatelessWidget {
             ElevatedButton(
               style:
                   ElevatedButton.styleFrom(padding: const EdgeInsets.all(16)),
-              onPressed: () {},
+              onPressed: () async {
+                await Navigator.pushNamed(context, RootScreen.routName);
+              },
               child: Text(
                 buttonText,
                 style: const TextStyle(fontSize: 20),

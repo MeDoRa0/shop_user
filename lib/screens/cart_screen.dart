@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:shop_user/constants/assets.dart';
 import 'package:shop_user/widgets/bottom_checkout.dart';
 import 'package:shop_user/widgets/cart_widget.dart';
-import 'package:shop_user/widgets/empty_cart.dart';
+import 'package:shop_user/widgets/empty_screen.dart';
 import 'package:shop_user/widgets/title_text.dart';
 
 class CartScreen extends StatelessWidget {

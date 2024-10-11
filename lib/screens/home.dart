@@ -9,6 +9,7 @@ import 'package:shop_user/widgets/title_text.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
+  static const routName = '/Home';
 
   @override
   Widget build(BuildContext context) {

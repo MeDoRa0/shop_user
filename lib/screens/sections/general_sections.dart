@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shop_user/constants/assets.dart';
+import 'package:shop_user/screens/viewed_recently.dart';
 import 'package:shop_user/screens/wishlist.dart';
 import 'package:shop_user/widgets/custom_list_tile.dart';
 import 'package:shop_user/widgets/title_text.dart';
@@ -27,14 +28,16 @@ class GeneralSection extends StatelessWidget {
         CustomListTile(
           icon: Assets.imagesBagWishlistSvg,
           title: 'WishList',
-          function: () {
-            Navigator.pushNamed(context, WishList.routName);
+          function: () async {
+            await Navigator.pushNamed(context, WishList.routName);
           },
         ),
         CustomListTile(
           icon: Assets.imagesProfileRecent,
           title: 'Viewed resent',
-          function: () {},
+          function: () async {
+            await Navigator.pushNamed(context, ViewedRecently.routName);
+          },
         ),
         CustomListTile(
           icon: Assets.imagesProfileAddress,
