@@ -1,7 +1,7 @@
 // ignore_for_file: prefer_single_quotes
 class Assets {
   Assets._();
-  
+
   /// Assets for imagesAddressMap
   /// assets/images/address_map.png
   static const String imagesAddressMap = "assets/images/address_map.png";
@@ -20,43 +20,53 @@ class Assets {
 
   /// Assets for imagesBagShoppingBasket
   /// assets/images/bag/shopping_basket.png
-  static const String imagesBagShoppingBasket = "assets/images/bag/shopping_basket.png";
+  static const String imagesBagShoppingBasket =
+      "assets/images/bag/shopping_basket.png";
 
   /// Assets for imagesBagShoppingCart
   /// assets/images/bag/shopping_cart.png
-  static const String imagesBagShoppingCart = "assets/images/bag/shopping_cart.png";
+  static const String imagesBagShoppingCart =
+      "assets/images/bag/shopping_cart.png";
 
   /// Assets for imagesBagWishlistSvg
   /// assets/images/bag/wishlist_svg.png
-  static const String imagesBagWishlistSvg = "assets/images/bag/wishlist_svg.png";
+  static const String imagesBagWishlistSvg =
+      "assets/images/bag/wishlist_svg.png";
 
   /// Assets for imagesBannersBanner1
   /// assets/images/banners/banner1.png
-  static const String imagesBannersBanner1 = "assets/images/banners/banner1.png";
+  static const String imagesBannersBanner1 =
+      "assets/images/banners/banner1.png";
 
   /// Assets for imagesBannersBanner2
   /// assets/images/banners/banner2.png
-  static const String imagesBannersBanner2 = "assets/images/banners/banner2.png";
+  static const String imagesBannersBanner2 =
+      "assets/images/banners/banner2.png";
 
   /// Assets for imagesCategoriesBookImg
   /// assets/images/categories/book_img.png
-  static const String imagesCategoriesBookImg = "assets/images/categories/book_img.png";
+  static const String imagesCategoriesBookImg =
+      "assets/images/categories/book_img.png";
 
   /// Assets for imagesCategoriesCosmetics
   /// assets/images/categories/cosmetics.png
-  static const String imagesCategoriesCosmetics = "assets/images/categories/cosmetics.png";
+  static const String imagesCategoriesCosmetics =
+      "assets/images/categories/cosmetics.png";
 
   /// Assets for imagesCategoriesElectronics
   /// assets/images/categories/electronics.png
-  static const String imagesCategoriesElectronics = "assets/images/categories/electronics.png";
+  static const String imagesCategoriesElectronics =
+      "assets/images/categories/electronics.png";
 
   /// Assets for imagesCategoriesFashion
   /// assets/images/categories/fashion.png
-  static const String imagesCategoriesFashion = "assets/images/categories/fashion.png";
+  static const String imagesCategoriesFashion =
+      "assets/images/categories/fashion.png";
 
   /// Assets for imagesCategoriesMobiles
   /// assets/images/categories/mobiles.png
-  static const String imagesCategoriesMobiles = "assets/images/categories/mobiles.png";
+  static const String imagesCategoriesMobiles =
+      "assets/images/categories/mobiles.png";
 
   /// Assets for imagesCategoriesPc
   /// assets/images/categories/pc.png
@@ -64,11 +74,13 @@ class Assets {
 
   /// Assets for imagesCategoriesShoes
   /// assets/images/categories/shoes.png
-  static const String imagesCategoriesShoes = "assets/images/categories/shoes.png";
+  static const String imagesCategoriesShoes =
+      "assets/images/categories/shoes.png";
 
   /// Assets for imagesCategoriesWatch
   /// assets/images/categories/watch.png
-  static const String imagesCategoriesWatch = "assets/images/categories/watch.png";
+  static const String imagesCategoriesWatch =
+      "assets/images/categories/watch.png";
 
   /// Assets for imagesEmptySearch
   /// assets/images/empty_search.png
@@ -80,11 +92,13 @@ class Assets {
 
   /// Assets for imagesForgotPassword
   /// assets/images/forgot_password.jpg
-  static const String imagesForgotPassword = "assets/images/forgot_password.jpg";
+  static const String imagesForgotPassword =
+      "assets/images/forgot_password.jpg";
 
   /// Assets for imagesProfileAddress
   /// assets/images/profile/address.png
-  static const String imagesProfileAddress = "assets/images/profile/address.png";
+  static const String imagesProfileAddress =
+      "assets/images/profile/address.png";
 
   /// Assets for imagesProfileLogin
   /// assets/images/profile/login.png
@@ -96,7 +110,8 @@ class Assets {
 
   /// Assets for imagesProfilePrivacy
   /// assets/images/profile/privacy.png
-  static const String imagesProfilePrivacy = "assets/images/profile/privacy.png";
+  static const String imagesProfilePrivacy =
+      "assets/images/profile/privacy.png";
 
   /// Assets for imagesProfileRecent
   /// assets/images/profile/recent.png
@@ -118,4 +133,3 @@ class Assets {
   /// assets/images/warning.png
   static const String imagesWarning = "assets/images/warning.png";
 }
-

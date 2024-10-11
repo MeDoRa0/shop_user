@@ -19,7 +19,7 @@ class CartWidget extends StatelessWidget {
           child: Row(
             children: [
               FancyShimmerImage(
-                imageUrl:AppConstants.productImageUrl,
+                imageUrl: AppConstants.productImageUrl,
                 height: size.height * 0.2,
                 width: size.width * 0.4,
               ),
@@ -45,7 +45,7 @@ class CartWidget extends StatelessWidget {
                               onPressed: () {},
                               icon: const Icon(Icons.delete),
                             ),
-                          const AddToFavorit()
+                            const AddToFavorit()
                           ],
                         ),
                       ],
