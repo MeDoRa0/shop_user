@@ -2,6 +2,7 @@ import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
 import 'package:shop_user/constants/app_colors.dart';
 import 'package:shop_user/constants/app_constants.dart';
+import 'package:shop_user/widgets/add_to_favorit.dart';
 import 'package:shop_user/widgets/app_name_text.dart';
 import 'package:shop_user/widgets/subtitle_text.dart';
 import 'package:shop_user/widgets/title_text.dart';
@@ -65,10 +66,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      IconButton(
-                        onPressed: () {},
-                        icon: const Icon(Icons.favorite),
-                      ),
+                      const AddToFavorit(),
                       const SizedBox(
                         width: 16,
                       ),
