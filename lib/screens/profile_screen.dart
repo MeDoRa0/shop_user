@@ -4,6 +4,7 @@ import 'package:shop_user/Providers/theme_provider.dart';
 import 'package:shop_user/constants/app_colors.dart';
 import 'package:shop_user/constants/assets.dart';
 import 'package:shop_user/screens/sections/general_sections.dart';
+import 'package:shop_user/services/app_methods.dart';
 import 'package:shop_user/widgets/app_name_text.dart';
 import 'package:shop_user/widgets/subtitle_text.dart';
 import 'package:shop_user/widgets/title_text.dart';
@@ -111,7 +112,12 @@ class ProfileScreen extends StatelessWidget {
                   Icons.logout,
                   color: AppColors.lightScafoldColor,
                 ),
-                onPressed: () {},
+                onPressed: () async {
+                  await AppMethods.customShowdialog(
+                      context: context,
+                      label: 'are you leaving',
+                      function: () {});
+                },
                 label: const SubTitleText(
                   label: 'Log out',
                   color: AppColors.lightScafoldColor,
