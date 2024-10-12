@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:shop_user/root_screen.dart';
-import 'package:shop_user/screens/home.dart';
 import 'package:shop_user/widgets/subtitle_text.dart';
 import 'package:shop_user/widgets/title_text.dart';
 
