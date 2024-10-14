@@ -8,7 +8,7 @@ class SignInWithGoogle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  ElevatedButton.icon(
+    return ElevatedButton.icon(
       style: ElevatedButton.styleFrom(
         padding: const EdgeInsets.all(12),
         backgroundColor: Colors.grey,
