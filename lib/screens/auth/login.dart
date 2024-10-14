@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:shop_user/constants/app_colors.dart';
 import 'package:shop_user/constants/assets.dart';
 import 'package:shop_user/constants/auth_validators.dart';
 import 'package:shop_user/widgets/app_name_text.dart';
+import 'package:shop_user/widgets/auth/sign_in_with_google.dart';
 import 'package:shop_user/widgets/subtitle_text.dart';
 import 'package:shop_user/widgets/title_text.dart';
 
@@ -193,23 +193,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       Row(
                         children: [
-                          ElevatedButton.icon(
-                            style: ElevatedButton.styleFrom(
-                              padding: const EdgeInsets.all(12),
-                              backgroundColor: Colors.grey,
-                            ),
-                            icon: const FaIcon(
-                              FontAwesomeIcons.google,
-                              color: Colors.red,
-                            ),
-                            onPressed: () {},
-                            label: const SubTitleText(
-                              label: 'Sign in with google',
-                              fontSize: 18,
-                              fontWeight: FontWeight.w500,
-                              color: AppColors.lightScafoldColor,
-                            ),
-                          ),
+                          const SignInWithGoogle(),
                           const SizedBox(
                             width: 16,
                           ),
