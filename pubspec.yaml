@@ -36,6 +36,7 @@ dependencies:
   flutter:
     sdk: flutter
   font_awesome_flutter: ^10.7.0
+  image_picker: ^1.1.2
   provider: ^6.1.2
   shared_preferences: ^2.3.2
   shimmer: ^3.0.0

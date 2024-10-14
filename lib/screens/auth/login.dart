@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:shop_user/constants/app_colors.dart';
 import 'package:shop_user/constants/assets.dart';
 import 'package:shop_user/constants/auth_validators.dart';
+import 'package:shop_user/screens/auth/signup.dart';
 import 'package:shop_user/widgets/app_name_text.dart';
 import 'package:shop_user/widgets/auth/sign_in_with_google.dart';
 import 'package:shop_user/widgets/subtitle_text.dart';
@@ -222,7 +223,10 @@ class _LoginScreenState extends State<LoginScreen> {
                         children: [
                           const SubTitleText(label: 'Don`t have an account?'),
                           TextButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.pushNamed(
+                                  context, SignupScreen.routName);
+                            },
                             child: const SubTitleText(
                               label: 'Sign up',
                               textDecoration: TextDecoration.underline,

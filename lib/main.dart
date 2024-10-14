@@ -41,6 +41,7 @@ class ShopUser extends StatelessWidget {
               ViewedRecently.routName: (context) => const ViewedRecently(),
               HomeScreen.routName: (context) => const HomeScreen(),
               RootScreen.routName: (context) => const RootScreen(),
+              SignupScreen.routName:(context)=>const SignupScreen(),
             },
           );
         },
