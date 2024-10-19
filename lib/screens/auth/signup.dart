@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:shop_user/services/app_methods.dart';
 import 'package:shop_user/widgets/app_name_text.dart';
 import 'package:shop_user/widgets/auth/pick_image.dart';
 import 'package:shop_user/widgets/auth/register_form.dart';
@@ -59,7 +60,14 @@ class _SignupScreenState extends State<SignupScreen> {
                   height: size.height * 0.2,
                   width: size.width * 0.3,
                   child: PickImage(
-                    function: () {},
+                    function: () async {
+                      await AppMethods.imagePickerDialog(
+                        context: context,
+                        cameraFT: () {},
+                        galleryFT: () {},
+                        removeFT: () {},
+                      );
+                    },
                     pickedImage: _pickedImage,
                   ),
                 ),
