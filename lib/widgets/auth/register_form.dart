@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:shop_user/constants/app_colors.dart';
 import 'package:shop_user/constants/auth_validators.dart';
+import 'package:shop_user/services/app_methods.dart';
 import 'package:shop_user/widgets/subtitle_text.dart';
 
 class RegisterForm extends StatefulWidget {
-  const RegisterForm({super.key});
+  const RegisterForm({super.key, required this.pickedImage});
+  final XFile? pickedImage;
 
   @override
   State<RegisterForm> createState() => _RegisterFormState();
@@ -51,8 +54,15 @@ class _RegisterFormState extends State<RegisterForm> {
   Future<void> _signup() async {
     final isValid = _formKey.currentState!.validate();
     FocusScope.of(context).unfocus();
-    if (isValid) {}
+
+    if (isValid) {
+      if (widget.pickedImage == null) {
+        AppMethods.alertDialog(
+            context: context, label: 'please pick image', function: () {});
+      }
+    }
   }
+
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -174,7 +184,9 @@ class _RegisterFormState extends State<RegisterForm> {
                 Icons.person_add,
                 color: AppColors.lightScafoldColor,
               ),
-              onPressed: () {},
+              onPressed: () {
+                _signup();
+              },
               label: const SubTitleText(
                 label: 'Sign Up',
                 fontSize: 18,

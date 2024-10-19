@@ -17,6 +17,26 @@ class SignupScreen extends StatefulWidget {
 
 class _SignupScreenState extends State<SignupScreen> {
   XFile? _pickedImage;
+
+  Future<void> localImagePicker() async {
+    final ImagePicker picker = ImagePicker();
+    await AppMethods.imagePickerDialog(
+      context: context,
+      cameraFT: () async {
+        _pickedImage = await picker.pickImage(source: ImageSource.camera);
+        setState(() {});
+      },
+      galleryFT: () async {
+        _pickedImage = await picker.pickImage(source: ImageSource.gallery);
+        setState(() {});
+      },
+      removeFT: () {
+        _pickedImage = null;
+        setState(() {});
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -61,18 +81,15 @@ class _SignupScreenState extends State<SignupScreen> {
                   width: size.width * 0.3,
                   child: PickImage(
                     function: () async {
-                      await AppMethods.imagePickerDialog(
-                        context: context,
-                        cameraFT: () {},
-                        galleryFT: () {},
-                        removeFT: () {},
-                      );
+                      await localImagePicker();
                     },
                     pickedImage: _pickedImage,
                   ),
                 ),
                 const SizedBox(height: 16),
-                const RegisterForm(),
+                RegisterForm(
+                  pickedImage: _pickedImage,
+                ),
                 const SizedBox(
                   height: 16,
                 ),

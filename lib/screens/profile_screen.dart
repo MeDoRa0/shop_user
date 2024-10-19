@@ -113,7 +113,7 @@ class ProfileScreen extends StatelessWidget {
                   color: AppColors.lightScafoldColor,
                 ),
                 onPressed: () async {
-                  await AppMethods.customShowdialog(
+                  await AppMethods.logoutdialog(
                       context: context,
                       label: 'are you leaving',
                       function: () {});
