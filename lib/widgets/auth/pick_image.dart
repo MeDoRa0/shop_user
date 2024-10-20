@@ -22,7 +22,7 @@ class PickImage extends StatelessWidget {
                     //height: size.height * 0.2,
                     //   width: size.width * 5,
                     decoration: BoxDecoration(
-                      border: Border.all(),
+                      border: Border.all(color: Colors.grey),
                       borderRadius: BorderRadius.circular(8),
                     ),
                   )

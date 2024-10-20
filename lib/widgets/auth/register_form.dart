@@ -172,7 +172,7 @@ class _RegisterFormState extends State<RegisterForm> {
             },
           ),
           const SizedBox(
-            height: 16,
+            height: 60,
           ),
           SizedBox(
             width: double.infinity,
