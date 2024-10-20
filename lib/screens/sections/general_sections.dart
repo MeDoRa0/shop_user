@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shop_user/constants/assets.dart';
+import 'package:shop_user/screens/inner_screens/orders/order_screen.dart';
 import 'package:shop_user/screens/viewed_recently.dart';
 import 'package:shop_user/screens/wishlist.dart';
 import 'package:shop_user/widgets/custom_list_tile.dart';
@@ -23,7 +24,9 @@ class GeneralSection extends StatelessWidget {
         CustomListTile(
           icon: Assets.imagesBagOrderSvg,
           title: 'All Order',
-          function: () {},
+          function: () async {
+            await Navigator.pushNamed(context, OrderScreen.routName);
+          },
         ),
         CustomListTile(
           icon: Assets.imagesBagWishlistSvg,

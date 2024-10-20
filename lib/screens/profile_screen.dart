@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:shop_user/Providers/theme_provider.dart';
 import 'package:shop_user/constants/app_colors.dart';
 import 'package:shop_user/constants/assets.dart';
+import 'package:shop_user/screens/auth/login.dart';
 import 'package:shop_user/screens/sections/general_sections.dart';
 import 'package:shop_user/services/app_methods.dart';
 import 'package:shop_user/widgets/app_name_text.dart';
@@ -114,9 +115,22 @@ class ProfileScreen extends StatelessWidget {
                 ),
                 onPressed: () async {
                   await AppMethods.logoutdialog(
-                      context: context,
-                      label: 'are you leaving',
-                      function: () {});
+                    context: context,
+                    label: 'are you leaving',
+                    function: () {
+                      // Pop the dialog first
+                      Navigator.pop(context);
+
+                      // Delay navigation slightly to ensure the dialog is completely closed
+                      Future.delayed(Duration(milliseconds: 100), () {
+                        Navigator.pushNamedAndRemoveUntil(
+                          context,
+                          LoginScreen.routName,
+                          (route) => false,
+                        );
+                      });
+                    },
+                  );
                 },
                 label: const SubTitleText(
                   label: 'Log out',

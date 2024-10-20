@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:shop_user/constants/app_colors.dart';
 import 'package:shop_user/constants/assets.dart';
 import 'package:shop_user/constants/auth_validators.dart';
+import 'package:shop_user/root_screen.dart';
+import 'package:shop_user/screens/auth/forogot_password_screen.dart';
 import 'package:shop_user/screens/auth/signup.dart';
 import 'package:shop_user/widgets/app_name_text.dart';
 import 'package:shop_user/widgets/auth/sign_in_with_google.dart';
@@ -10,6 +12,8 @@ import 'package:shop_user/widgets/title_text.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
+
+  static const routName = '/LoginScreen';
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
@@ -44,7 +48,9 @@ class _LoginScreenState extends State<LoginScreen> {
   Future<void> _login() async {
     final isValid = _formKey.currentState!.validate();
     FocusScope.of(context).unfocus();
-    if (isValid) {}
+    if (isValid) {
+      Navigator.pushNamed(context, RootScreen.routName);
+    }
   }
 
   @override
@@ -154,7 +160,10 @@ class _LoginScreenState extends State<LoginScreen> {
                       Align(
                         alignment: Alignment.centerRight,
                         child: TextButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.pushNamed(
+                                context, ForogotPasswordScreen.routName);
+                          },
                           child: const SubTitleText(
                             label: 'Forgot Password ?',
                             textDecoration: TextDecoration.underline,
