@@ -6,7 +6,7 @@ import 'package:shop_user/screens/search_screen.dart';
 
 class RootScreen extends StatefulWidget {
   const RootScreen({super.key});
-   static const routName = '/RootScreen';
+  static const routName = '/RootScreen';
 
   @override
   State<RootScreen> createState() => _RootScreenState();
@@ -14,7 +14,7 @@ class RootScreen extends StatefulWidget {
 
 class _RootScreenState extends State<RootScreen> {
   late PageController screensController;
-  int currentScreen = 2;
+  int currentScreen = 0;
   List<Widget> screens = [
     const HomeScreen(),
     const SearchScreen(),

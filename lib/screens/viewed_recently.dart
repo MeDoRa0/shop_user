@@ -28,13 +28,16 @@ class ViewedRecently extends StatelessWidget {
                   child: Image.asset(Assets.imagesBagShoppingCart),
                 ),
                 actions: [
-                  IconButton(onPressed: () {}, icon: const Icon(Icons.delete))
+                  IconButton(
+                    onPressed: () {},
+                    icon: const Icon(Icons.delete),
+                  ),
                 ],
               ),
               body: DynamicHeightGridView(
                 itemCount: 222,
                 builder: (context, index) {
-                  return const ProductItem();
+                  return const ProductItem(productID: "",);
                 },
                 crossAxisCount: 2,
               ),

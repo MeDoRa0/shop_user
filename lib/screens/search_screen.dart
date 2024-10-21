@@ -7,13 +7,12 @@ import 'package:shop_user/widgets/custom_text_field.dart';
 import 'package:shop_user/widgets/product_item.dart';
 import 'package:shop_user/widgets/title_text.dart';
 
-
 class SearchScreen extends StatelessWidget {
   const SearchScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-      final productProvider = Provider.of<ProductProvider>(context);
+    final productProvider = Provider.of<ProductProvider>(context);
     return GestureDetector(
       onTap: () {
         //this widget will enable the user to exit textfield if he press on screen
@@ -39,11 +38,17 @@ class SearchScreen extends StatelessWidget {
               ),
               Expanded(
                 child: DynamicHeightGridView(
-                    itemCount: productProvider.getProducts.length,
-                    builder: (context, index) {
-                      return ChangeNotifierProvider.value(value: productProvider.getProducts[index],child: const ProductItem());
-                    },
-                    crossAxisCount: 2,),
+                  itemCount: productProvider.getProducts.length,
+                  builder: (context, index) {
+                    return ChangeNotifierProvider.value(
+                      value: productProvider.getProducts[index],
+                      child: ProductItem(
+                        productID: productProvider.getProducts[index].productID,
+                      ),
+                    );
+                  },
+                  crossAxisCount: 2,
+                ),
               )
             ],
           ),

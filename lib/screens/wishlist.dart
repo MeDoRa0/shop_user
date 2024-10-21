@@ -34,7 +34,7 @@ class WishList extends StatelessWidget {
               body: DynamicHeightGridView(
                 itemCount: 222,
                 builder: (context, index) {
-                  return const ProductItem();
+                  return const ProductItem(productID: "",);
                 },
                 crossAxisCount: 2,
               ),
