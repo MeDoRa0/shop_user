@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+
 import 'package:provider/provider.dart';
+import 'package:shop_user/Providers/image_provider.dart';
+import 'package:shop_user/Providers/product_provider.dart';
 import 'package:shop_user/Providers/theme_provider.dart';
 import 'package:shop_user/constants/theme_data.dart';
 import 'package:shop_user/root_screen.dart';
@@ -26,7 +29,13 @@ class ShopUser extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(
           create: (context) => ThemeProvider(),
-        )
+        ),
+        ChangeNotifierProvider(
+          create: (context) => ProductProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => ImageProviderModel(),
+        ),
       ],
       //we can use Consumer to use ThemePovider
       child: Consumer<ThemeProvider>(
@@ -46,7 +55,8 @@ class ShopUser extends StatelessWidget {
               SignupScreen.routName: (context) => const SignupScreen(),
               LoginScreen.routName: (context) => const LoginScreen(),
               OrderScreen.routName: (context) => const OrderScreen(),
-              ForogotPasswordScreen.routName:(context)=>const ForogotPasswordScreen(),
+              ForogotPasswordScreen.routName: (context) =>
+                  const ForogotPasswordScreen(),
             },
           );
         },

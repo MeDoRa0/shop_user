@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
+import 'package:shop_user/Providers/image_provider.dart';
 import 'package:shop_user/services/app_methods.dart';
 import 'package:shop_user/widgets/app_name_text.dart';
 import 'package:shop_user/widgets/auth/pick_image.dart';
@@ -16,23 +18,23 @@ class SignupScreen extends StatefulWidget {
 }
 
 class _SignupScreenState extends State<SignupScreen> {
-  XFile? _pickedImage;
+  
 
-  Future<void> localImagePicker() async {
+  Future<void> localImagePicker(BuildContext context) async {
     final ImagePicker picker = ImagePicker();
+     final imageProvider = Provider.of<ImageProviderModel>(context, listen: false);
     await AppMethods.imagePickerDialog(
       context: context,
       cameraFT: () async {
-        _pickedImage = await picker.pickImage(source: ImageSource.camera);
-        setState(() {});
+       final XFile? image = await picker.pickImage(source: ImageSource.camera);
+        imageProvider.setPickedImage(image);
       },
       galleryFT: () async {
-        _pickedImage = await picker.pickImage(source: ImageSource.gallery);
-        setState(() {});
+       final XFile? image = await picker.pickImage(source: ImageSource.gallery);
+        imageProvider.setPickedImage(image);
       },
       removeFT: () {
-        _pickedImage = null;
-        setState(() {});
+         imageProvider.clearImage();
       },
     );
   }
@@ -76,19 +78,23 @@ class _SignupScreenState extends State<SignupScreen> {
                 const SizedBox(
                   height: 16,
                 ),
-                SizedBox(
-                  height: size.height * 0.2,
-                  width: size.width * 0.3,
-                  child: PickImage(
-                    function: () async {
-                      await localImagePicker();
-                    },
-                    pickedImage: _pickedImage,
-                  ),
+                Consumer<ImageProviderModel>(
+                  builder: (context, imageProvider, child) {
+                    return SizedBox(
+                      height: size.height * 0.2,
+                      width: size.width * 0.3,
+                      child: PickImage(
+                        function: () async {
+                          await localImagePicker(context);
+                        },
+                       
+                      ),
+                    );
+                  },
                 ),
                 const SizedBox(height: 16),
-                RegisterForm(
-                  pickedImage: _pickedImage,
+                const RegisterForm(
+                 
                 ),
                 const SizedBox(
                   height: 16,

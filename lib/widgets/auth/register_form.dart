@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
+import 'package:shop_user/Providers/image_provider.dart';
 import 'package:shop_user/constants/app_colors.dart';
 import 'package:shop_user/constants/auth_validators.dart';
 import 'package:shop_user/screens/auth/login.dart';
@@ -7,8 +8,9 @@ import 'package:shop_user/services/app_methods.dart';
 import 'package:shop_user/widgets/subtitle_text.dart';
 
 class RegisterForm extends StatefulWidget {
-  const RegisterForm({super.key, required this.pickedImage});
-  final XFile? pickedImage;
+  const RegisterForm({
+    super.key,
+  });
 
   @override
   State<RegisterForm> createState() => _RegisterFormState();
@@ -57,7 +59,9 @@ class _RegisterFormState extends State<RegisterForm> {
     FocusScope.of(context).unfocus();
 
     if (isValid) {
-      if (widget.pickedImage == null) {
+      final imageProvider =
+          Provider.of<ImageProviderModel>(context, listen: false);
+      if (imageProvider.pickedImage == null) {
         AppMethods.alertDialog(
             context: context, label: 'please pick image', function: () {});
       }
@@ -205,7 +209,7 @@ class _RegisterFormState extends State<RegisterForm> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              SubTitleText(label: 'already have an account'),
+              const SubTitleText(label: 'already have an account'),
               TextButton(
                 onPressed: () async {
                   await Navigator.pushNamed(context, LoginScreen.routName);

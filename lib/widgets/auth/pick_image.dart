@@ -1,23 +1,24 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
+import 'package:shop_user/Providers/image_provider.dart';
 
 class PickImage extends StatelessWidget {
-  const PickImage({super.key, this.pickedImage, required this.function});
-  final XFile? pickedImage;
+  const PickImage({super.key, required this.function});
+
   final Function function;
 
   @override
   Widget build(BuildContext context) {
-    //Size size = MediaQuery.of(context).size;
+    final imageProvider = Provider.of<ImageProviderModel>(context);
     return Stack(
       children: [
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: ClipRRect(
             borderRadius: BorderRadius.circular(8),
-            child: pickedImage == null
+            child: imageProvider.pickedImage == null
                 ? Container(
                     //height: size.height * 0.2,
                     //   width: size.width * 5,
@@ -28,7 +29,7 @@ class PickImage extends StatelessWidget {
                   )
                 : Image.file(
                     File(
-                      pickedImage!.path,
+                      imageProvider.pickedImage!.path,
                     ),
                     fit: BoxFit.fill,
                   ),
