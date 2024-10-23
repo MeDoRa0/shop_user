@@ -1,6 +1,8 @@
 import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
-import 'package:shop_user/constants/app_constants.dart';
+import 'package:provider/provider.dart';
+import 'package:shop_user/Providers/product_provider.dart';
+import 'package:shop_user/models/cart_model.dart';
 import 'package:shop_user/widgets/add_to_favorit.dart';
 import 'package:shop_user/widgets/quantity_bottom_sheet.dart';
 import 'package:shop_user/widgets/subtitle_text.dart';
@@ -11,15 +13,20 @@ class CartWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+      final cartModelProvider = Provider.of<CartModel>(context);
+     final productProvider = Provider.of<ProductProvider>(context);
+    final getCurrentProduct = productProvider.findByProdId(cartModelProvider.productID);
+   
+   
     Size size = MediaQuery.of(context).size;
-    return FittedBox(
+    return getCurrentProduct==null? const SizedBox.shrink():  FittedBox(
       child: IntrinsicWidth(
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Row(
             children: [
               FancyShimmerImage(
-                imageUrl: AppConstants.productImageUrl,
+                imageUrl: getCurrentProduct.productImage,
                 height: size.height * 0.2,
                 width: size.width * 0.4,
               ),
@@ -35,7 +42,7 @@ class CartWidget extends StatelessWidget {
                         SizedBox(
                           width: size.width * 0.5,
                           child: TitleText(
-                            label: 'item name' * 10,
+                            label: getCurrentProduct.productTitle,
                             maxLines: 2,
                           ),
                         ),
@@ -53,22 +60,22 @@ class CartWidget extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const SubTitleText(
-                          label: '\$28',
+                         SubTitleText(
+                          label: '\$${getCurrentProduct.productPrice}' ,
                           fontSize: 20,
                         ),
                         OutlinedButton.icon(
                           onPressed: () async {
                             await showModalBottomSheet(
                               shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(16)),
+                                  borderRadius: BorderRadius.circular(16),),
                               context: context,
                               builder: (context) {
                                 return const QuantityBottomSheet();
                               },
                             );
                           },
-                          label: const Text('Qty (7)'),
+                          label: Text('Qty (${cartModelProvider.quantity})'),
                           icon: const Icon(Icons.arrow_drop_down),
                         )
                       ],
