@@ -72,6 +72,7 @@ class _SearchScreenState extends State<SearchScreen> {
                     TextField(
                       controller: searchTextController,
                       decoration: InputDecoration(
+                        hintText: 'search',
                         filled: true,
                         prefixIcon: const Icon(Icons.search),
                         suffixIcon: IconButton(
@@ -85,18 +86,18 @@ class _SearchScreenState extends State<SearchScreen> {
                           icon: const Icon(Icons.clear),
                         ),
                       ),
-                      onChanged: (value) {
+                      /*   onChanged: (value) {
                         setState(() {
                           productListSearch = productProvider.searchQuery(
-                            searchText: searchTextController.text,
-                          );
+                              searchText: searchTextController.text,
+                              passedList: productList);
                         });
-                      },
+                      },*/
                       onSubmitted: (value) {
                         setState(() {
                           productListSearch = productProvider.searchQuery(
-                            searchText: searchTextController.text,
-                          );
+                              searchText: searchTextController.text,
+                              passedList: productList);
                         });
                       },
                     ),
@@ -118,13 +119,10 @@ class _SearchScreenState extends State<SearchScreen> {
                             ? productListSearch.length
                             : productList.length,
                         builder: ((context, index) {
-                          return ChangeNotifierProvider.value(
-                            value: productList[index],
-                            child: ProductItem(
-                              productID: searchTextController.text.isNotEmpty
-                                  ? productListSearch[index].productID
-                                  : productList[index].productID,
-                            ),
+                          return ProductItem(
+                            productID: searchTextController.text.isNotEmpty
+                                ? productListSearch[index].productID
+                                : productList[index].productID,
                           );
                         }),
                         crossAxisCount: 2,

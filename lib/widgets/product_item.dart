@@ -1,6 +1,7 @@
 import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shop_user/Providers/cart_provider.dart';
 import 'package:shop_user/Providers/product_provider.dart';
 import 'package:shop_user/screens/inner_screens/product_details.dart';
 import 'package:shop_user/widgets/add_to_favorit.dart';
@@ -13,9 +14,9 @@ class ProductItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //final productModelProvider = Provider.of<ProductModel>(context);
     final productProvider = Provider.of<ProductProvider>(context);
     final getCurrentProduct = productProvider.findByProdId(productID);
+    final cartProvider = Provider.of<CartProvider>(context);
     Size size = MediaQuery.of(context).size;
     return getCurrentProduct == null
         ? const SizedBox.shrink()
@@ -59,8 +60,22 @@ class ProductItem extends StatelessWidget {
                             label: '${getCurrentProduct.productPrice}'),
                       ),
                       IconButton(
-                        onPressed: () {},
-                        icon: const Icon(Icons.add_shopping_cart),
+                        onPressed: () {
+                          if (cartProvider.isProductInCart(
+                              productID: getCurrentProduct.productID)) {
+                            return;
+                          }
+                          cartProvider.addProductTocart(
+                              productID: getCurrentProduct.productID);
+                        },
+                        icon: Icon(
+                            cartProvider.isProductInCart(productID: productID)
+                                ? Icons.shopping_cart
+                                : Icons.add_shopping_cart,
+                            color: cartProvider.isProductInCart(
+                                    productID: productID)
+                                ? Colors.green
+                                : Colors.blue),
                       ),
                     ],
                   ),
