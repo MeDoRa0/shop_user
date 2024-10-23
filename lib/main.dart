@@ -12,6 +12,7 @@ import 'package:shop_user/screens/auth/signup.dart';
 import 'package:shop_user/screens/home.dart';
 import 'package:shop_user/screens/inner_screens/orders/order_screen.dart';
 import 'package:shop_user/screens/inner_screens/product_details.dart';
+import 'package:shop_user/screens/search_screen.dart';
 import 'package:shop_user/screens/viewed_recently.dart';
 import 'package:shop_user/screens/wishlist.dart';
 
@@ -57,6 +58,7 @@ class ShopUser extends StatelessWidget {
               OrderScreen.routName: (context) => const OrderScreen(),
               ForogotPasswordScreen.routName: (context) =>
                   const ForogotPasswordScreen(),
+                  SearchScreen.routeName:(context)=> const SearchScreen(),
             },
           );
         },

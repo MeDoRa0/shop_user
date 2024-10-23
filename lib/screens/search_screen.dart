@@ -3,16 +3,45 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shop_user/Providers/product_provider.dart';
 import 'package:shop_user/constants/assets.dart';
-import 'package:shop_user/widgets/custom_text_field.dart';
+import 'package:shop_user/models/product_model.dart';
+import 'package:shop_user/widgets/empty_screen.dart';
 import 'package:shop_user/widgets/product_item.dart';
 import 'package:shop_user/widgets/title_text.dart';
 
-class SearchScreen extends StatelessWidget {
+class SearchScreen extends StatefulWidget {
+  static const routeName = '/searchScreen';
   const SearchScreen({super.key});
+
+  @override
+  State<SearchScreen> createState() => _SearchScreenState();
+}
+
+class _SearchScreenState extends State<SearchScreen> {
+  late TextEditingController searchTextController;
+  @override
+  void initState() {
+    super.initState();
+    searchTextController = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    searchTextController.dispose();
+    super.dispose();
+  }
+
+  List<ProductModel> productListSearch = [];
 
   @override
   Widget build(BuildContext context) {
     final productProvider = Provider.of<ProductProvider>(context);
+
+    String? passedCategory =
+        ModalRoute.of(context)!.settings.arguments as String?;
+    final List<ProductModel> productList = passedCategory == null
+        ? productProvider.getProducts
+        : productProvider.findByCategory(categoryName: passedCategory);
+
     return GestureDetector(
       onTap: () {
         //this widget will enable the user to exit textfield if he press on screen
@@ -20,39 +49,90 @@ class SearchScreen extends StatelessWidget {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: const TitleText(
-            label: 'Search',
+          title: TitleText(
+            label: passedCategory ?? 'Search',
           ),
           leading: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Image.asset(Assets.imagesBagShoppingCart),
           ),
         ),
-        body: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            children: [
-              const CustomTextField(),
-              const SizedBox(
-                height: 16,
-              ),
-              Expanded(
-                child: DynamicHeightGridView(
-                  itemCount: productProvider.getProducts.length,
-                  builder: (context, index) {
-                    return ChangeNotifierProvider.value(
-                      value: productProvider.getProducts[index],
-                      child: ProductItem(
-                        productID: productProvider.getProducts[index].productID,
-                      ),
-                    );
-                  },
-                  crossAxisCount: 2,
-                ),
+        body: productList.isEmpty
+            ? const EmptyScreen(
+                imagePath: Assets.imagesBagShoppingCart,
+                title: 'no item available',
+                subtilte:
+                    'we dont have what you want right now \n but we have another items you may like',
+                buttonText: 'shop now',
               )
-            ],
-          ),
-        ),
+            : Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  children: [
+                    TextField(
+                      controller: searchTextController,
+                      decoration: InputDecoration(
+                        filled: true,
+                        prefixIcon: const Icon(Icons.search),
+                        suffixIcon: IconButton(
+                          onPressed: () {
+                            // setState(() {
+                            searchTextController.clear();
+                            FocusScope.of(context).unfocus();
+
+                            //});
+                          },
+                          icon: const Icon(Icons.clear),
+                        ),
+                      ),
+                      onChanged: (value) {
+                        setState(() {
+                          productListSearch = productProvider.searchQuery(
+                            searchText: searchTextController.text,
+                          );
+                        });
+                      },
+                      onSubmitted: (value) {
+                        setState(() {
+                          productListSearch = productProvider.searchQuery(
+                            searchText: searchTextController.text,
+                          );
+                        });
+                      },
+                    ),
+                    const SizedBox(
+                      height: 16,
+                    ),
+                    if (searchTextController.text.isNotEmpty &&
+                        productListSearch.isEmpty) ...[
+                      const Center(
+                        child: TitleText(
+                          label: 'no result found',
+                          fontSize: 40,
+                        ),
+                      ),
+                    ],
+                    Expanded(
+                      child: DynamicHeightGridView(
+                        itemCount: searchTextController.text.isNotEmpty
+                            ? productListSearch.length
+                            : productList.length,
+                        builder: ((context, index) {
+                          return ChangeNotifierProvider.value(
+                            value: productList[index],
+                            child: ProductItem(
+                              productID: searchTextController.text.isNotEmpty
+                                  ? productListSearch[index].productID
+                                  : productList[index].productID,
+                            ),
+                          );
+                        }),
+                        crossAxisCount: 2,
+                      ),
+                    )
+                  ],
+                ),
+              ),
       ),
     );
   }

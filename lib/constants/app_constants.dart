@@ -27,18 +27,18 @@ class AppConstants {
     ),
     CategoriesModel(
       image: Assets.imagesCategoriesCosmetics,
-      name: 'Cosmatics',
-      id: 'cosmatics',
+      name: 'Cosmetics',
+      id: 'cosmetics',
     ),
     CategoriesModel(
       image: Assets.imagesCategoriesFashion,
-      name: 'Fashion',
-      id: 'fashion',
+      name: 'Clothes',
+      id: 'clothes',
     ),
     CategoriesModel(
       image: Assets.imagesCategoriesPc,
-      name: 'PC',
-      id: 'pc',
+      name: 'Laptops',
+      id: 'laptops',
     ),
     CategoriesModel(
       image: Assets.imagesCategoriesShoes,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shop_user/screens/search_screen.dart';
 import 'package:shop_user/widgets/subtitle_text.dart';
 
 class CategoriesWidget extends StatelessWidget {
@@ -11,21 +12,30 @@ class CategoriesWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Image.asset(
-          image,
-          height: 50,
-          width: 50,
-        ),
-        const SizedBox(
-          height: 10,
-        ),
-        SubTitleText(
-          label: name,
-          fontWeight: FontWeight.bold,
-        ),
-      ],
+    return GestureDetector(
+      onTap: () {
+        Navigator.pushNamed(
+          context,
+          SearchScreen.routeName,
+          arguments: name,
+        );
+      },
+      child: Column(
+        children: [
+          Image.asset(
+            image,
+            height: 50,
+            width: 50,
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          SubTitleText(
+            label: name,
+            fontWeight: FontWeight.bold,
+          ),
+        ],
+      ),
     );
   }
 }
