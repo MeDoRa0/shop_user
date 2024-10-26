@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shop_user/Providers/cart_provider.dart';
 import 'package:shop_user/constants/assets.dart';
+import 'package:shop_user/services/app_methods.dart';
 import 'package:shop_user/widgets/bottom_checkout.dart';
 import 'package:shop_user/widgets/cart_widget.dart';
 import 'package:shop_user/widgets/empty_screen.dart';
@@ -33,7 +34,17 @@ class CartScreen extends StatelessWidget {
                 child: Image.asset(Assets.imagesBagShoppingCart),
               ),
               actions: [
-                IconButton(onPressed: () {}, icon: const Icon(Icons.delete))
+                IconButton(
+                    onPressed: () {
+                      AppMethods.alertDialog(
+                          isError: false,
+                          context: context,
+                          label: 'clear your cart',
+                          function: () {
+                            cartProvider.clearLocalCart();
+                          });
+                    },
+                    icon: const Icon(Icons.delete))
               ],
             ),
             body: Column(

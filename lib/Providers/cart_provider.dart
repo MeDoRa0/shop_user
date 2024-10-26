@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:shop_user/Providers/product_provider.dart';
 import 'package:shop_user/models/cart_model.dart';
+import 'package:shop_user/models/product_model.dart';
 import 'package:uuid/uuid.dart';
 
 class CartProvider with ChangeNotifier {
@@ -23,7 +25,7 @@ class CartProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void updateQuantity({required String productID,required int quantity}) {
+  void updateQuantity({required String productID, required int quantity}) {
     _cartItems.update(
       productID,
       (item) => CartModel(
@@ -33,5 +35,41 @@ class CartProvider with ChangeNotifier {
       ),
     );
     notifyListeners();
+  }
+
+  double getTotal({required ProductProvider productProvider}) {
+    double total = 0.0;
+    _cartItems.forEach(
+      (key, value) {
+        final ProductModel? getCurrentProduct =
+            productProvider.findByProdId(value.productID);
+        if (getCurrentProduct == null) {
+          total + 0;
+        } else {
+          total += getCurrentProduct.productPrice * value.quantity;
+        }
+      },
+    );
+    return total;
+  }
+
+  void removeOneItem({required String productID}) {
+    _cartItems.remove(productID);
+    notifyListeners();
+  }
+
+  void clearLocalCart() {
+    _cartItems.clear();
+    notifyListeners();
+  }
+
+  int getQuantity() {
+    int total = 0;
+    _cartItems.forEach(
+      (key, value) {
+        total += value.quantity;
+      },
+    );
+    return total;
   }
 }

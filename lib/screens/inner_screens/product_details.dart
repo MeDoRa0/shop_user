@@ -1,6 +1,7 @@
 import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shop_user/Providers/cart_provider.dart';
 import 'package:shop_user/Providers/product_provider.dart';
 import 'package:shop_user/constants/app_colors.dart';
 import 'package:shop_user/widgets/add_to_favorit.dart';
@@ -23,6 +24,7 @@ class _ProductDetailsState extends State<ProductDetails> {
     final poductProvider = Provider.of<ProductProvider>(context, listen: false);
     final productID = ModalRoute.of(context)!.settings.arguments as String;
     final getCurrentProduct = poductProvider.findByProdId(productID);
+    final cartProvider = Provider.of<CartProvider>(context);
     return Scaffold(
       appBar: AppBar(
         title: const AppNameText(),
@@ -81,15 +83,31 @@ class _ProductDetailsState extends State<ProductDetails> {
                               ),
                               ElevatedButton.icon(
                                 style: ElevatedButton.styleFrom(
-                                  backgroundColor: Colors.green,
+                                  backgroundColor: cartProvider.isProductInCart(
+                                          productID: productID)
+                                      ? Colors.green
+                                      : Colors.blue,
                                 ),
-                                icon: const Icon(
-                                  Icons.add_shopping_cart,
+                                icon: Icon(
+                                  cartProvider.isProductInCart(
+                                          productID: productID)
+                                      ? Icons.shopping_cart
+                                      : Icons.add_shopping_cart,
                                   color: AppColors.lightScafoldColor,
                                 ),
-                                onPressed: () {},
-                                label: const SubTitleText(
-                                  label: 'add to cart',
+                                onPressed: () {
+                                  if (cartProvider.isProductInCart(
+                                      productID: getCurrentProduct.productID)) {
+                                    return;
+                                  }
+                                  cartProvider.addProductTocart(
+                                      productID: getCurrentProduct.productID);
+                                },
+                                label: SubTitleText(
+                                  label: cartProvider.isProductInCart(
+                                          productID: productID)
+                                      ? 'in your cart'
+                                      : 'add to cart',
                                   color: AppColors.lightScafoldColor,
                                 ),
                               ),

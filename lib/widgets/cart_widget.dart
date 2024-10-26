@@ -1,6 +1,7 @@
 import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shop_user/Providers/cart_provider.dart';
 import 'package:shop_user/Providers/product_provider.dart';
 import 'package:shop_user/models/cart_model.dart';
 import 'package:shop_user/widgets/add_to_favorit.dart';
@@ -13,6 +14,7 @@ class CartWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final cartProvider = Provider.of<CartProvider>(context);
     final cartModelProvider = Provider.of<CartModel>(context);
     final productProvider = Provider.of<ProductProvider>(context);
     final getCurrentProduct =
@@ -51,7 +53,11 @@ class CartWidget extends StatelessWidget {
                               Column(
                                 children: [
                                   IconButton(
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      cartProvider.removeOneItem(
+                                          productID:
+                                              getCurrentProduct.productID);
+                                    },
                                     icon: const Icon(Icons.delete),
                                   ),
                                   const AddToFavorit()
