@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:shop_user/Providers/product_provider.dart';
 import 'package:shop_user/constants/app_constants.dart';
 import 'package:shop_user/constants/assets.dart';
 import 'package:shop_user/widgets/app_name_text.dart';
@@ -13,6 +15,9 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final productProvider = Provider.of<ProductProvider>(context);
+    Size size = MediaQuery.of(context).size;
+
     return Scaffold(
       appBar: AppBar(
         title: const AppNameText(),
@@ -36,7 +41,16 @@ class HomeScreen extends StatelessWidget {
             const SizedBox(
               height: 16,
             ),
-            const LatestArrival(),
+            SizedBox(
+                height: size.height * 0.2,
+                child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: 5,
+                    itemBuilder: (context, index) {
+                      return ChangeNotifierProvider.value(
+                          value: productProvider.getProducts[index],
+                          child: const LatestArrival());
+                    })),
             const SizedBox(
               height: 16,
             ),
