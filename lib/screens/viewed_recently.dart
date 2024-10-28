@@ -1,5 +1,7 @@
 import 'package:dynamic_height_grid_view/dynamic_height_grid_view.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:shop_user/Providers/viewd_recently_provider.dart';
 import 'package:shop_user/constants/assets.dart';
 import 'package:shop_user/widgets/empty_screen.dart';
 import 'package:shop_user/widgets/product_item.dart';
@@ -12,8 +14,9 @@ class ViewedRecently extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final viewdRecentlyProvider = Provider.of<ViewdRecentlyProvider>(context);
     return Scaffold(
-      body: isEmpty
+      body: viewdRecentlyProvider.getviewRecentlytItems.isEmpty
           ? const EmptyScreen(
               imagePath: Assets.imagesBagOrder,
               title: 'your didn`t view items yet',
@@ -27,17 +30,16 @@ class ViewedRecently extends StatelessWidget {
                   padding: const EdgeInsets.all(8.0),
                   child: Image.asset(Assets.imagesBagShoppingCart),
                 ),
-                actions: [
-                  IconButton(
-                    onPressed: () {},
-                    icon: const Icon(Icons.delete),
-                  ),
-                ],
               ),
               body: DynamicHeightGridView(
-                itemCount: 222,
+                itemCount: viewdRecentlyProvider.getviewRecentlytItems.length,
                 builder: (context, index) {
-                  return const ProductItem(productID: "",);
+                  return ProductItem(
+                    productID: viewdRecentlyProvider
+                        .getviewRecentlytItems.values
+                        .toList()[index]
+                        .productID,
+                  );
                 },
                 crossAxisCount: 2,
               ),

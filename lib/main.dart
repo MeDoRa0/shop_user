@@ -5,6 +5,8 @@ import 'package:shop_user/Providers/cart_provider.dart';
 import 'package:shop_user/Providers/image_provider.dart';
 import 'package:shop_user/Providers/product_provider.dart';
 import 'package:shop_user/Providers/theme_provider.dart';
+import 'package:shop_user/Providers/viewd_recently_provider.dart';
+import 'package:shop_user/Providers/wishlist_provider.dart';
 import 'package:shop_user/constants/theme_data.dart';
 import 'package:shop_user/root_screen.dart';
 import 'package:shop_user/screens/auth/forogot_password_screen.dart';
@@ -41,6 +43,10 @@ class ShopUser extends StatelessWidget {
         ChangeNotifierProvider(
           create: (context) => CartProvider(),
         ),
+        ChangeNotifierProvider(create: (context) => WishlistProvider()),
+        ChangeNotifierProvider(
+          create: (context) => ViewdRecentlyProvider(),
+        )
       ],
       //we can use Consumer to use ThemePovider
       child: Consumer<ThemeProvider>(

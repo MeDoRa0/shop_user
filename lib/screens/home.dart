@@ -49,7 +49,10 @@ class HomeScreen extends StatelessWidget {
                     itemBuilder: (context, index) {
                       return ChangeNotifierProvider.value(
                           value: productProvider.getProducts[index],
-                          child: const LatestArrival());
+                          child: LatestArrival(
+                            productID:
+                                productProvider.getProducts[index].productID,
+                          ));
                     })),
             const SizedBox(
               height: 16,

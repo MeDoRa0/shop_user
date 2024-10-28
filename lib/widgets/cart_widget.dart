@@ -60,7 +60,7 @@ class CartWidget extends StatelessWidget {
                                     },
                                     icon: const Icon(Icons.delete),
                                   ),
-                                  const AddToFavorit()
+                                   AddToFavorit(productID:getCurrentProduct.productID ,)
                                 ],
                               ),
                             ],

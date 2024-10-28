@@ -1,17 +1,25 @@
 import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shop_user/Providers/cart_provider.dart';
+import 'package:shop_user/Providers/product_provider.dart';
+import 'package:shop_user/Providers/viewd_recently_provider.dart';
 import 'package:shop_user/models/product_model.dart';
 import 'package:shop_user/screens/inner_screens/product_details.dart';
 import 'package:shop_user/widgets/add_to_favorit.dart';
 import 'package:shop_user/widgets/subtitle_text.dart';
 
 class LatestArrival extends StatelessWidget {
-  const LatestArrival({super.key});
+  const LatestArrival({super.key, required this.productID});
+  final String productID;
 
   @override
   Widget build(BuildContext context) {
-    
+    final productProvider = Provider.of<ProductProvider>(context);
+    final getCurrentProduct = productProvider.findByProdId(productID);
+    final cartProvider = Provider.of<CartProvider>(context);
+    final viewdRecentlyProvider = Provider.of<ViewdRecentlyProvider>(context);
+
     final productModel = Provider.of<ProductModel>(context);
     Size size = MediaQuery.of(context).size;
     return Padding(
@@ -23,7 +31,10 @@ class LatestArrival extends StatelessWidget {
         ),
         child: GestureDetector(
           onTap: () async {
-            await Navigator.pushNamed(context, ProductDetails.routName);
+            viewdRecentlyProvider.addToViewdRecently(
+                productID: productModel.productID);
+            await Navigator.pushNamed(context, ProductDetails.routName,
+                arguments: productModel.productID);
           },
           child: SizedBox(
             width: size.width * 0.50,
@@ -51,11 +62,25 @@ class LatestArrival extends StatelessWidget {
                       FittedBox(
                         child: Row(
                           children: [
-                            const AddToFavorit(),
+                            AddToFavorit(productID: productModel.productID),
                             IconButton(
-                              onPressed: () {},
-                              icon: const Icon(
-                                Icons.add_shopping_cart,
+                              onPressed: () {
+                                if (cartProvider.isProductInCart(
+                                    productID: getCurrentProduct!.productID)) {
+                                  return;
+                                }
+                                cartProvider.addProductTocart(
+                                    productID: getCurrentProduct.productID);
+                              },
+                              icon: Icon(
+                                cartProvider.isProductInCart(
+                                        productID: productModel.productID)
+                                    ? Icons.shopping_cart
+                                    : Icons.add_shopping_cart,
+                                color: cartProvider.isProductInCart(
+                                        productID: productModel.productID)
+                                    ? Colors.green
+                                    : Colors.blue,
                               ),
                             ),
                           ],

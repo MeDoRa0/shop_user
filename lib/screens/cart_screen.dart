@@ -37,7 +37,6 @@ class CartScreen extends StatelessWidget {
                 IconButton(
                     onPressed: () {
                       AppMethods.alertDialog(
-                          isError: false,
                           context: context,
                           label: 'clear your cart',
                           function: () {

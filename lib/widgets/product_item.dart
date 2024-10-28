@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shop_user/Providers/cart_provider.dart';
 import 'package:shop_user/Providers/product_provider.dart';
+import 'package:shop_user/Providers/viewd_recently_provider.dart';
 import 'package:shop_user/screens/inner_screens/product_details.dart';
 import 'package:shop_user/widgets/add_to_favorit.dart';
 import 'package:shop_user/widgets/subtitle_text.dart';
@@ -15,13 +16,18 @@ class ProductItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final productProvider = Provider.of<ProductProvider>(context);
+
     final getCurrentProduct = productProvider.findByProdId(productID);
     final cartProvider = Provider.of<CartProvider>(context);
+
+    final viewdRecentlyProvider = Provider.of<ViewdRecentlyProvider>(context);
     Size size = MediaQuery.of(context).size;
     return getCurrentProduct == null
         ? const SizedBox.shrink()
         : InkWell(
             onTap: () async {
+              viewdRecentlyProvider.addToViewdRecently(
+                  productID: getCurrentProduct.productID);
               await Navigator.pushNamed(
                 context,
                 ProductDetails.routName,
@@ -49,7 +55,7 @@ class ProductItem extends StatelessWidget {
                           maxLines: 2,
                         ),
                       ),
-                      const AddToFavorit(),
+                      AddToFavorit(productID: getCurrentProduct.productID),
                     ],
                   ),
                   Row(
@@ -69,13 +75,14 @@ class ProductItem extends StatelessWidget {
                               productID: getCurrentProduct.productID);
                         },
                         icon: Icon(
-                            cartProvider.isProductInCart(productID: productID)
-                                ? Icons.shopping_cart
-                                : Icons.add_shopping_cart,
-                            color: cartProvider.isProductInCart(
-                                    productID: productID)
-                                ? Colors.green
-                                : Colors.blue),
+                          cartProvider.isProductInCart(productID: productID)
+                              ? Icons.shopping_cart
+                              : Icons.add_shopping_cart,
+                          color:
+                              cartProvider.isProductInCart(productID: productID)
+                                  ? Colors.green
+                                  : Colors.blue,
+                        ),
                       ),
                     ],
                   ),

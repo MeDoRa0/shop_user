@@ -62,7 +62,7 @@ class _RegisterFormState extends State<RegisterForm> {
       final imageProvider =
           Provider.of<ImageProviderModel>(context, listen: false);
       if (imageProvider.pickedImage == null) {
-        AppMethods.alertDialog(
+        AppMethods.errorDialog(
             context: context, label: 'please pick image', function: () {});
       }
     }
