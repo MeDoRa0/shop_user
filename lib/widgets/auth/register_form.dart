@@ -1,4 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:shop_user/Providers/image_provider.dart';
 import 'package:shop_user/constants/app_colors.dart';
@@ -28,6 +30,8 @@ class _RegisterFormState extends State<RegisterForm> {
 
   late final _formKey = GlobalKey<FormState>();
   bool obscureText = true;
+  bool isLoading = false;
+  final auth = FirebaseAuth.instance;
   @override
   void initState() {
     _userNameController = TextEditingController();
@@ -61,9 +65,42 @@ class _RegisterFormState extends State<RegisterForm> {
     if (isValid) {
       final imageProvider =
           Provider.of<ImageProviderModel>(context, listen: false);
-      if (imageProvider.pickedImage == null) {
+      /*  if (imageProvider.pickedImage == null) {
         AppMethods.errorDialog(
-            context: context, label: 'please pick image', function: () {});
+          context: context,
+          label: 'please pick image',
+          function: () {},
+        );
+      }*/
+      try {
+        setState(() {
+          isLoading = true;
+        });
+        await auth.createUserWithEmailAndPassword(
+          email: _emailController.text.trim(),
+          password: _passwordlController.text.trim(),
+        );
+        Fluttertoast.showToast(
+          msg: "an account has been created",
+          toastLength: Toast.LENGTH_SHORT,
+          textColor: Colors.white,
+        );
+      } on FirebaseAuthException catch (error) {
+        AppMethods.errorDialog(
+          context: context,
+          label: '${error.message}',
+          function: () {},
+        );
+      } catch (error) {
+        await AppMethods.errorDialog(
+          context: context,
+          label: 'an error has been occured $error',
+          function: () {},
+        );
+      } finally {
+        setState(() {
+          isLoading = false;
+        });
       }
     }
   }
@@ -121,6 +158,7 @@ class _RegisterFormState extends State<RegisterForm> {
             controller: _passwordlController,
             focusNode: _passwordFoucsNode,
             textInputAction: TextInputAction.next,
+            keyboardType: TextInputType.visiblePassword,
             decoration: InputDecoration(
               suffixIcon: IconButton(
                 onPressed: () {
@@ -151,6 +189,7 @@ class _RegisterFormState extends State<RegisterForm> {
             controller: _confirmPasswordlController,
             focusNode: _confrimPasswordFoucsNode,
             textInputAction: TextInputAction.done,
+            keyboardType: TextInputType.visiblePassword,
             decoration: InputDecoration(
               suffixIcon: IconButton(
                 onPressed: () {

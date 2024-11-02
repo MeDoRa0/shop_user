@@ -1,10 +1,13 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shop_user/constants/app_colors.dart';
 import 'package:shop_user/constants/assets.dart';
 import 'package:shop_user/constants/auth_validators.dart';
 import 'package:shop_user/root_screen.dart';
 import 'package:shop_user/screens/auth/forogot_password_screen.dart';
 import 'package:shop_user/screens/auth/signup.dart';
+import 'package:shop_user/services/app_methods.dart';
 import 'package:shop_user/widgets/app_name_text.dart';
 import 'package:shop_user/widgets/auth/sign_in_with_google.dart';
 import 'package:shop_user/widgets/subtitle_text.dart';
@@ -26,6 +29,8 @@ class _LoginScreenState extends State<LoginScreen> {
   late final FocusNode _passwordFoucsNode;
   late final _formKey = GlobalKey<FormState>();
   bool obscureText = true;
+  bool isLoading = false;
+  final auth = FirebaseAuth.instance;
   @override
   void initState() {
     _emailController = TextEditingController();
@@ -49,6 +54,43 @@ class _LoginScreenState extends State<LoginScreen> {
     final isValid = _formKey.currentState!.validate();
     FocusScope.of(context).unfocus();
     if (isValid) {
+      final isValid = _formKey.currentState!.validate();
+      FocusScope.of(context).unfocus();
+
+      if (isValid) {
+        _formKey.currentState!.save();
+        try {
+          setState(() {
+            isLoading = true;
+          });
+          await auth.signInWithEmailAndPassword(
+            email: _emailController.text.trim(),
+            password: _passwordlController.text.trim(),
+          );
+          Fluttertoast.showToast(
+            msg: "login successful",
+            toastLength: Toast.LENGTH_SHORT,
+            textColor: Colors.white,
+          );
+          
+        } on FirebaseAuthException catch (error) {
+          AppMethods.errorDialog(
+            context: context,
+            label: 'an error ${error.message}',
+            function: () {},
+          );
+        } catch (error) {
+          await AppMethods.errorDialog(
+            context: context,
+            label: 'an error has been occured $error',
+            function: () {},
+          );
+        } finally {
+          setState(() {
+            isLoading = false;
+          });
+        }
+      }
       Navigator.pushNamed(context, RootScreen.routName);
     }
   }
@@ -185,7 +227,9 @@ class _LoginScreenState extends State<LoginScreen> {
                             Icons.login,
                             color: AppColors.lightScafoldColor,
                           ),
-                          onPressed: () {},
+                          onPressed: () {
+                            _login();
+                          },
                           label: const SubTitleText(
                             label: 'Login',
                             fontSize: 18,

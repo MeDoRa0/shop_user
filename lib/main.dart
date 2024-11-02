@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
@@ -29,50 +30,69 @@ class ShopUser extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     //final themeProvider = Provider.of<ThemeProvider>(context);
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider(
-          create: (context) => ThemeProvider(),
-        ),
-        ChangeNotifierProvider(
-          create: (context) => ProductProvider(),
-        ),
-        ChangeNotifierProvider(
-          create: (context) => ImageProviderModel(),
-        ),
-        ChangeNotifierProvider(
-          create: (context) => CartProvider(),
-        ),
-        ChangeNotifierProvider(create: (context) => WishlistProvider()),
-        ChangeNotifierProvider(
-          create: (context) => ViewdRecentlyProvider(),
-        )
-      ],
-      //we can use Consumer to use ThemePovider
-      child: Consumer<ThemeProvider>(
-        builder: (context, themeProvider, child) {
-          return MaterialApp(
-            theme: Styles.themeData(
-                isDarkTheme: themeProvider.getIsDarkTheme, context: context),
-            title: 'shop user',
-            home: const RootScreen(),
-            // home: const SignupScreen(),
-            routes: {
-              ProductDetails.routName: (context) => const ProductDetails(),
-              WishList.routName: (context) => const WishList(),
-              ViewedRecently.routName: (context) => const ViewedRecently(),
-              HomeScreen.routName: (context) => const HomeScreen(),
-              RootScreen.routName: (context) => const RootScreen(),
-              SignupScreen.routName: (context) => const SignupScreen(),
-              LoginScreen.routName: (context) => const LoginScreen(),
-              OrderScreen.routName: (context) => const OrderScreen(),
-              ForogotPasswordScreen.routName: (context) =>
-                  const ForogotPasswordScreen(),
-              SearchScreen.routeName: (context) => const SearchScreen(),
-            },
+    return FutureBuilder(
+        future: Firebase.initializeApp(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            Scaffold(
+              body: CircularProgressIndicator(),
+            );
+          } else if (snapshot.hasError) {
+            return Scaffold(
+              body: Center(
+                child: SelectableText(
+                    'an error has been occured ${snapshot.error}'),
+              ),
+            );
+          }
+          return MultiProvider(
+            providers: [
+              ChangeNotifierProvider(
+                create: (context) => ThemeProvider(),
+              ),
+              ChangeNotifierProvider(
+                create: (context) => ProductProvider(),
+              ),
+              ChangeNotifierProvider(
+                create: (context) => ImageProviderModel(),
+              ),
+              ChangeNotifierProvider(
+                create: (context) => CartProvider(),
+              ),
+              ChangeNotifierProvider(create: (context) => WishlistProvider()),
+              ChangeNotifierProvider(
+                create: (context) => ViewdRecentlyProvider(),
+              )
+            ],
+            //we can use Consumer to use ThemePovider
+            child: Consumer<ThemeProvider>(
+              builder: (context, themeProvider, child) {
+                return MaterialApp(
+                  theme: Styles.themeData(
+                      isDarkTheme: themeProvider.getIsDarkTheme,
+                      context: context),
+                  title: 'shop user',
+                  home: const RootScreen(),
+                  // home: const SignupScreen(),
+                  routes: {
+                    ProductDetails.routName: (context) =>
+                        const ProductDetails(),
+                    WishList.routName: (context) => const WishList(),
+                    ViewedRecently.routName: (context) =>
+                        const ViewedRecently(),
+                    HomeScreen.routName: (context) => const HomeScreen(),
+                    RootScreen.routName: (context) => const RootScreen(),
+                    SignupScreen.routName: (context) => const SignupScreen(),
+                    LoginScreen.routName: (context) => const LoginScreen(),
+                    OrderScreen.routName: (context) => const OrderScreen(),
+                    ForogotPasswordScreen.routName: (context) =>
+                        const ForogotPasswordScreen(),
+                    SearchScreen.routeName: (context) => const SearchScreen(),
+                  },
+                );
+              },
+            ),
           );
-        },
-      ),
-    );
+        });
   }
 }
