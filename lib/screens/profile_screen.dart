@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shop_user/Providers/theme_provider.dart';
@@ -10,8 +11,15 @@ import 'package:shop_user/widgets/app_name_text.dart';
 import 'package:shop_user/widgets/subtitle_text.dart';
 import 'package:shop_user/widgets/title_text.dart';
 
-class ProfileScreen extends StatelessWidget {
+class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
+
+  @override
+  State<ProfileScreen> createState() => _ProfileScreenState();
+}
+
+class _ProfileScreenState extends State<ProfileScreen> {
+  User? user = FirebaseAuth.instance.currentUser;
   @override
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
@@ -107,33 +115,29 @@ class ProfileScreen extends StatelessWidget {
             Center(
               child: ElevatedButton.icon(
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.red,
+                  backgroundColor: user == null ? Colors.green : Colors.red,
                 ),
-                icon: const Icon(
-                  Icons.logout,
+                icon: Icon(
+                  user == null ? Icons.login : Icons.logout,
                   color: AppColors.lightScafoldColor,
                 ),
                 onPressed: () async {
-                  await AppMethods.logoutdialog(
-                    context: context,
-                    label: 'are you leaving',
-                    function: () {
-                      // Pop the dialog first
-                      Navigator.pop(context);
-
-                      // Delay navigation slightly to ensure the dialog is completely closed
-                      Future.delayed(Duration(milliseconds: 100), () {
-                        Navigator.pushNamedAndRemoveUntil(
-                          context,
-                          LoginScreen.routName,
-                          (route) => false,
-                        );
-                      });
-                    },
-                  );
+                  if (user == null) {
+                    await Navigator.pushNamed(context, LoginScreen.routName);
+                  } else {
+                    await AppMethods.logoutdialog(
+                        context: context,
+                        label: 'are you leaving',
+                        function: () async {
+                          await FirebaseAuth.instance.signOut();
+                          if (!mounted) return;
+                          await Navigator.pushNamed(
+                              context, LoginScreen.routName);
+                        });
+                  }
                 },
-                label: const SubTitleText(
-                  label: 'Log out',
+                label: SubTitleText(
+                  label: user == null ? 'Login' : 'Logout',
                   color: AppColors.lightScafoldColor,
                 ),
               ),

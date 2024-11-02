@@ -67,31 +67,39 @@ class _LoginScreenState extends State<LoginScreen> {
             email: _emailController.text.trim(),
             password: _passwordlController.text.trim(),
           );
+          if (!mounted) return;
           Fluttertoast.showToast(
+            backgroundColor: Colors.green,
             msg: "login successful",
             toastLength: Toast.LENGTH_SHORT,
             textColor: Colors.white,
           );
-          
+          if (!mounted) {
+            return;
+          }
+          Navigator.pushReplacementNamed(context, RootScreen.routName);
         } on FirebaseAuthException catch (error) {
+          if (!mounted) return;
           AppMethods.errorDialog(
             context: context,
             label: 'an error ${error.message}',
             function: () {},
           );
         } catch (error) {
+          if (!mounted) return;
           await AppMethods.errorDialog(
             context: context,
             label: 'an error has been occured $error',
             function: () {},
           );
         } finally {
-          setState(() {
+       if(mounted){
+           setState(() {
             isLoading = false;
           });
+       }
         }
       }
-      Navigator.pushNamed(context, RootScreen.routName);
     }
   }
 

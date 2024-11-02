@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:shop_user/Providers/image_provider.dart';
 import 'package:shop_user/constants/app_colors.dart';
 import 'package:shop_user/constants/auth_validators.dart';
+import 'package:shop_user/root_screen.dart';
 import 'package:shop_user/screens/auth/login.dart';
 import 'package:shop_user/services/app_methods.dart';
 import 'package:shop_user/widgets/subtitle_text.dart';
@@ -85,6 +86,10 @@ class _RegisterFormState extends State<RegisterForm> {
           toastLength: Toast.LENGTH_SHORT,
           textColor: Colors.white,
         );
+        if (!mounted) {
+          return;
+        }
+        Navigator.pushReplacementNamed(context, RootScreen.routName);
       } on FirebaseAuthException catch (error) {
         AppMethods.errorDialog(
           context: context,
