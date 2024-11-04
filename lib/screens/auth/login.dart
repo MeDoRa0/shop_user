@@ -268,7 +268,10 @@ class _LoginScreenState extends State<LoginScreen> {
                                   padding: const EdgeInsets.all(12),
                                   backgroundColor: Colors.grey,
                                 ),
-                                onPressed: () {},
+                                onPressed: () async {
+                                  Navigator.pushReplacementNamed(
+                                      context, RootScreen.routName);
+                                },
                                 child: const SubTitleText(
                                   label: 'Guest ?',
                                   fontSize: 18,
