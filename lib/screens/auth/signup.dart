@@ -6,6 +6,7 @@ import 'package:shop_user/services/app_methods.dart';
 import 'package:shop_user/widgets/app_name_text.dart';
 import 'package:shop_user/widgets/auth/pick_image.dart';
 import 'package:shop_user/widgets/auth/register_form.dart';
+import 'package:shop_user/widgets/loading_manager.dart';
 import 'package:shop_user/widgets/subtitle_text.dart';
 import 'package:shop_user/widgets/title_text.dart';
 

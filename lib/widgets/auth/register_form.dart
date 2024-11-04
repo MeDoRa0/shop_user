@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -8,6 +9,7 @@ import 'package:shop_user/constants/auth_validators.dart';
 import 'package:shop_user/root_screen.dart';
 import 'package:shop_user/screens/auth/login.dart';
 import 'package:shop_user/services/app_methods.dart';
+import 'package:shop_user/widgets/loading_manager.dart';
 import 'package:shop_user/widgets/subtitle_text.dart';
 
 class RegisterForm extends StatefulWidget {
@@ -81,7 +83,19 @@ class _RegisterFormState extends State<RegisterForm> {
           email: _emailController.text.trim(),
           password: _passwordlController.text.trim(),
         );
+        User? user = auth.currentUser;
+        final uid = user!.uid;
+        await FirebaseFirestore.instance.collection('users').doc(uid).set({
+          'userId': uid,
+          'userName': _userNameController.text,
+          'userEmail': _emailController.text.toLowerCase(),
+          'userImage': '',
+          'createdAt': Timestamp.now(),
+          'userWishlist': [],
+          'userCart': [],
+        });
         Fluttertoast.showToast(
+          backgroundColor: Colors.blue,
           msg: "an account has been created",
           toastLength: Toast.LENGTH_SHORT,
           textColor: Colors.white,
@@ -91,7 +105,7 @@ class _RegisterFormState extends State<RegisterForm> {
         }
         Navigator.pushReplacementNamed(context, RootScreen.routName);
       } on FirebaseAuthException catch (error) {
-      await  AppMethods.errorDialog(
+        await AppMethods.errorDialog(
           context: context,
           label: '${error.message}',
           function: () {},
@@ -112,161 +126,164 @@ class _RegisterFormState extends State<RegisterForm> {
 
   @override
   Widget build(BuildContext context) {
-    return Form(
-      key: _formKey,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          TextFormField(
-            controller: _userNameController,
-            focusNode: _userNameFoucsNode,
-            textInputAction: TextInputAction.next,
-            decoration: const InputDecoration(
-              hintText: 'enter your username',
-              prefixIcon: Icon(
-                Icons.person,
-              ),
-            ),
-            validator: (userName) {
-              return AuthValidators.userNameValidator(userName);
-            },
-            onFieldSubmitted: (value) {
-              FocusScope.of(context).requestFocus(_emailFoucsNode);
-            },
-          ),
-          const SizedBox(
-            height: 16,
-          ),
-          TextFormField(
-            controller: _emailController,
-            focusNode: _emailFoucsNode,
-            textInputAction: TextInputAction.next,
-            keyboardType: TextInputType.emailAddress,
-            decoration: const InputDecoration(
-              hintText: 'enter your email',
-              prefixIcon: Icon(
-                Icons.email,
-              ),
-            ),
-            validator: (email) {
-              return AuthValidators.emailValidator(email);
-            },
-            onFieldSubmitted: (value) {
-              FocusScope.of(context).requestFocus(_passwordFoucsNode);
-            },
-          ),
-          const SizedBox(
-            height: 16,
-          ),
-          TextFormField(
-            obscureText: obscureText,
-            controller: _passwordlController,
-            focusNode: _passwordFoucsNode,
-            textInputAction: TextInputAction.next,
-            keyboardType: TextInputType.visiblePassword,
-            decoration: InputDecoration(
-              suffixIcon: IconButton(
-                onPressed: () {
-                  setState(() {
-                    obscureText = !obscureText;
-                  });
-                },
-                icon:
-                    Icon(obscureText ? Icons.visibility : Icons.visibility_off),
-              ),
-              hintText: 'enter your password',
-              prefixIcon: const Icon(
-                Icons.password,
-              ),
-            ),
-            validator: (password) {
-              return AuthValidators.passWordValidator(password);
-            },
-            onFieldSubmitted: (value) {
-              FocusScope.of(context).requestFocus(_confrimPasswordFoucsNode);
-            },
-          ),
-          const SizedBox(
-            height: 16,
-          ),
-          TextFormField(
-            obscureText: obscureText,
-            controller: _confirmPasswordlController,
-            focusNode: _confrimPasswordFoucsNode,
-            textInputAction: TextInputAction.done,
-            keyboardType: TextInputType.visiblePassword,
-            decoration: InputDecoration(
-              suffixIcon: IconButton(
-                onPressed: () {
-                  setState(() {
-                    obscureText = !obscureText;
-                  });
-                },
-                icon:
-                    Icon(obscureText ? Icons.visibility : Icons.visibility_off),
-              ),
-              hintText: 'confirm your password',
-              prefixIcon: const Icon(
-                Icons.lock,
-              ),
-            ),
-            validator: (repeatPassord) {
-              return AuthValidators.repeatPasswordValidator(
-                  repeatPassword: repeatPassord,
-                  password: _passwordlController.text);
-            },
-            onFieldSubmitted: (value) {
-              _signup();
-            },
-          ),
-          const SizedBox(
-            height: 60,
-          ),
-          SizedBox(
-            width: double.infinity,
-            child: ElevatedButton.icon(
-              style: ElevatedButton.styleFrom(
-                padding: const EdgeInsets.all(12),
-                backgroundColor: Colors.blue,
-              ),
-              icon: const Icon(
-                Icons.person_add,
-                color: AppColors.lightScafoldColor,
-              ),
-              onPressed: () {
-                _signup();
-              },
-              label: const SubTitleText(
-                label: 'Sign Up',
-                fontSize: 18,
-                fontWeight: FontWeight.w500,
-                color: AppColors.lightScafoldColor,
-              ),
-            ),
-          ),
-          const SizedBox(
-            height: 16,
-          ),
-          const SizedBox(
-            height: 16,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const SubTitleText(label: 'already have an account'),
-              TextButton(
-                onPressed: () async {
-                  await Navigator.pushNamed(context, LoginScreen.routName);
-                },
-                child: const SubTitleText(
-                  label: 'Sign in',
-                  textDecoration: TextDecoration.underline,
-                  fontStyle: FontStyle.italic,
+    return LoadingManager(
+      isLoading: isLoading,
+      child: Form(
+        key: _formKey,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            TextFormField(
+              controller: _userNameController,
+              focusNode: _userNameFoucsNode,
+              textInputAction: TextInputAction.next,
+              decoration: const InputDecoration(
+                hintText: 'enter your username',
+                prefixIcon: Icon(
+                  Icons.person,
                 ),
               ),
-            ],
-          )
-        ],
+              validator: (userName) {
+                return AuthValidators.userNameValidator(userName);
+              },
+              onFieldSubmitted: (value) {
+                FocusScope.of(context).requestFocus(_emailFoucsNode);
+              },
+            ),
+            const SizedBox(
+              height: 16,
+            ),
+            TextFormField(
+              controller: _emailController,
+              focusNode: _emailFoucsNode,
+              textInputAction: TextInputAction.next,
+              keyboardType: TextInputType.emailAddress,
+              decoration: const InputDecoration(
+                hintText: 'enter your email',
+                prefixIcon: Icon(
+                  Icons.email,
+                ),
+              ),
+              validator: (email) {
+                return AuthValidators.emailValidator(email);
+              },
+              onFieldSubmitted: (value) {
+                FocusScope.of(context).requestFocus(_passwordFoucsNode);
+              },
+            ),
+            const SizedBox(
+              height: 16,
+            ),
+            TextFormField(
+              obscureText: obscureText,
+              controller: _passwordlController,
+              focusNode: _passwordFoucsNode,
+              textInputAction: TextInputAction.next,
+              keyboardType: TextInputType.visiblePassword,
+              decoration: InputDecoration(
+                suffixIcon: IconButton(
+                  onPressed: () {
+                    setState(() {
+                      obscureText = !obscureText;
+                    });
+                  },
+                  icon: Icon(
+                      obscureText ? Icons.visibility : Icons.visibility_off),
+                ),
+                hintText: 'enter your password',
+                prefixIcon: const Icon(
+                  Icons.password,
+                ),
+              ),
+              validator: (password) {
+                return AuthValidators.passWordValidator(password);
+              },
+              onFieldSubmitted: (value) {
+                FocusScope.of(context).requestFocus(_confrimPasswordFoucsNode);
+              },
+            ),
+            const SizedBox(
+              height: 16,
+            ),
+            TextFormField(
+              obscureText: obscureText,
+              controller: _confirmPasswordlController,
+              focusNode: _confrimPasswordFoucsNode,
+              textInputAction: TextInputAction.done,
+              keyboardType: TextInputType.visiblePassword,
+              decoration: InputDecoration(
+                suffixIcon: IconButton(
+                  onPressed: () {
+                    setState(() {
+                      obscureText = !obscureText;
+                    });
+                  },
+                  icon: Icon(
+                      obscureText ? Icons.visibility : Icons.visibility_off),
+                ),
+                hintText: 'confirm your password',
+                prefixIcon: const Icon(
+                  Icons.lock,
+                ),
+              ),
+              validator: (repeatPassord) {
+                return AuthValidators.repeatPasswordValidator(
+                    repeatPassword: repeatPassord,
+                    password: _passwordlController.text);
+              },
+              onFieldSubmitted: (value) {
+                _signup();
+              },
+            ),
+            const SizedBox(
+              height: 60,
+            ),
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton.icon(
+                style: ElevatedButton.styleFrom(
+                  padding: const EdgeInsets.all(12),
+                  backgroundColor: Colors.blue,
+                ),
+                icon: const Icon(
+                  Icons.person_add,
+                  color: AppColors.lightScafoldColor,
+                ),
+                onPressed: () {
+                  _signup();
+                },
+                label: const SubTitleText(
+                  label: 'Sign Up',
+                  fontSize: 18,
+                  fontWeight: FontWeight.w500,
+                  color: AppColors.lightScafoldColor,
+                ),
+              ),
+            ),
+            const SizedBox(
+              height: 16,
+            ),
+            const SizedBox(
+              height: 16,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const SubTitleText(label: 'already have an account'),
+                TextButton(
+                  onPressed: () async {
+                    await Navigator.pushNamed(context, LoginScreen.routName);
+                  },
+                  child: const SubTitleText(
+                    label: 'Sign in',
+                    textDecoration: TextDecoration.underline,
+                    fontStyle: FontStyle.italic,
+                  ),
+                ),
+              ],
+            )
+          ],
+        ),
       ),
     );
   }
