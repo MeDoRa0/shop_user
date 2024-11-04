@@ -91,7 +91,7 @@ class _RegisterFormState extends State<RegisterForm> {
         }
         Navigator.pushReplacementNamed(context, RootScreen.routName);
       } on FirebaseAuthException catch (error) {
-        AppMethods.errorDialog(
+      await  AppMethods.errorDialog(
           context: context,
           label: '${error.message}',
           function: () {},
