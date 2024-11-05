@@ -3,6 +3,7 @@ import 'package:image_picker/image_picker.dart';
 
 class ImageProviderModel with ChangeNotifier {
   XFile? _pickedImage;
+  
 
   XFile? get pickedImage => _pickedImage;
 

@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
@@ -35,6 +38,8 @@ class _RegisterFormState extends State<RegisterForm> {
   bool obscureText = true;
   bool isLoading = false;
   final auth = FirebaseAuth.instance;
+
+  String? userImageUrl;
   @override
   void initState() {
     _userNameController = TextEditingController();
@@ -64,21 +69,33 @@ class _RegisterFormState extends State<RegisterForm> {
   Future<void> _signup() async {
     final isValid = _formKey.currentState!.validate();
     FocusScope.of(context).unfocus();
+    final imageProvider =
+        Provider.of<ImageProviderModel>(context, listen: false);
+    if (imageProvider.pickedImage == null) {
+      AppMethods.errorDialog(
+        context: context,
+        label: 'please pick image',
+        function: () {},
+      );
+      return;
+    }
 
     if (isValid) {
-      final imageProvider =
-          Provider.of<ImageProviderModel>(context, listen: false);
-      /*  if (imageProvider.pickedImage == null) {
-        AppMethods.errorDialog(
-          context: context,
-          label: 'please pick image',
-          function: () {},
-        );
-      }*/
+      _formKey.currentState!.save();
+
       try {
         setState(() {
           isLoading = true;
         });
+        //this code to store image on firbase storage
+        final ref = FirebaseStorage.instance
+            .ref()
+            .child('userImage')
+            .child('${_emailController.text.trim()}.jpg');
+        await ref.putFile(
+          File(imageProvider.pickedImage!.path),
+        );
+        userImageUrl = await ref.getDownloadURL();
         await auth.createUserWithEmailAndPassword(
           email: _emailController.text.trim(),
           password: _passwordlController.text.trim(),
@@ -89,7 +106,7 @@ class _RegisterFormState extends State<RegisterForm> {
           'userId': uid,
           'userName': _userNameController.text,
           'userEmail': _emailController.text.toLowerCase(),
-          'userImage': '',
+          'userImage': userImageUrl,
           'createdAt': Timestamp.now(),
           'userWishlist': [],
           'userCart': [],

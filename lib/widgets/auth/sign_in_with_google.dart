@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -22,6 +23,21 @@ class SignInWithGoogle extends StatelessWidget {
               idToken: googleAuth.idToken,
             ),
           );
+          //this will check if this google account has account on app or not
+          if (authResult.additionalUserInfo!.isNewUser) {
+            await FirebaseFirestore.instance
+                .collection('users')
+                .doc(authResult.user!.uid)
+                .set({
+              'userId': authResult.user!.uid,
+              'userName': authResult.user!.displayName,
+              'userEmail': authResult.user!.email,
+              'userImage': authResult.user!.photoURL,
+              'createdAt': Timestamp.now(),
+              'userWishlist': [],
+              'userCart': [],
+            });
+          }
           WidgetsBinding.instance.addPostFrameCallback(
             (_) async {
               Navigator.pushReplacementNamed(context, RootScreen.routName);
