@@ -1,6 +1,9 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shop_user/Providers/cart_provider.dart';
+import 'package:shop_user/Providers/product_provider.dart';
 import 'package:shop_user/screens/cart_screen.dart';
 import 'package:shop_user/screens/home.dart';
 import 'package:shop_user/screens/profile_screen.dart';
@@ -17,6 +20,7 @@ class RootScreen extends StatefulWidget {
 class _RootScreenState extends State<RootScreen> {
   late PageController screensController;
   int currentScreen = 0;
+  bool isLoadingProd = true;
   List<Widget> screens = [
     const HomeScreen(),
     const SearchScreen(),
@@ -27,6 +31,30 @@ class _RootScreenState extends State<RootScreen> {
   void initState() {
     super.initState();
     screensController = PageController(initialPage: currentScreen);
+  }
+
+  Future<void> fetchFunc() async {
+    final productProvider =
+        Provider.of<ProductProvider>(context, listen: false);
+    try {
+      //we use future.wait so we can use two future function in same time
+      Future.wait({
+        productProvider.fetchProduct(),
+      });
+    } catch (error) {
+      log(error.toString());
+    } finally {
+      isLoadingProd = false;
+    }
+  }
+
+  @override
+  void didChangeDependencies() {
+    if (isLoadingProd) {
+      fetchFunc();
+    }
+
+    super.didChangeDependencies();
   }
 
   @override

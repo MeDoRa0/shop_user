@@ -57,80 +57,103 @@ class _SearchScreenState extends State<SearchScreen> {
             child: Image.asset(Assets.imagesBagShoppingCart),
           ),
         ),
-        body: productList.isEmpty
-            ? const EmptyScreen(
-                imagePath: Assets.imagesBagShoppingCart,
-                title: 'no item available',
-                subtilte:
-                    'we dont have what you want right now \n but we have another items you may like',
-                buttonText: 'shop now',
-              )
-            : Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  children: [
-                    TextField(
-                      controller: searchTextController,
-                      decoration: InputDecoration(
-                        hintText: 'search',
-                        filled: true,
-                        prefixIcon: const Icon(Icons.search),
-                        suffixIcon: IconButton(
-                          onPressed: () {
-                            // setState(() {
-                            searchTextController.clear();
-                            FocusScope.of(context).unfocus();
+        body:
+            //  productList.isEmpty
+            //     ? const EmptyScreen(
+            //         imagePath: Assets.imagesBagShoppingCart,
+            //         title: 'no item available',
+            //         subtilte:
+            //             'we dont have what you want right now \n but we have another items you may like',
+            //         buttonText: 'shop now',
+            //       )
+            //     :
+            StreamBuilder<List<ProductModel>>(
+                stream: productProvider.fetchProdStream(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  } else if (snapshot.hasError) {
+                    return Center(
+                      child: TitleText(
+                        label: snapshot.error.toString(),
+                      ),
+                    );
+                  } else if (snapshot.data == null) {
+                    return Center(
+                      child: TitleText(
+                        label: 'no product has been added',
+                      ),
+                    );
+                  }
+                  return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      children: [
+                        TextField(
+                          controller: searchTextController,
+                          decoration: InputDecoration(
+                            hintText: 'search',
+                            filled: true,
+                            prefixIcon: const Icon(Icons.search),
+                            suffixIcon: IconButton(
+                              onPressed: () {
+                                // setState(() {
+                                searchTextController.clear();
+                                FocusScope.of(context).unfocus();
 
-                            //});
+                                //});
+                              },
+                              icon: const Icon(Icons.clear),
+                            ),
+                          ),
+                          /*   onChanged: (value) {
+                            setState(() {
+                              productListSearch = productProvider.searchQuery(
+                                  searchText: searchTextController.text,
+                                  passedList: productList);
+                            });
+                          },*/
+                          onSubmitted: (value) {
+                            setState(() {
+                              productListSearch = productProvider.searchQuery(
+                                  searchText: searchTextController.text,
+                                  passedList: productList);
+                            });
                           },
-                          icon: const Icon(Icons.clear),
                         ),
-                      ),
-                      /*   onChanged: (value) {
-                        setState(() {
-                          productListSearch = productProvider.searchQuery(
-                              searchText: searchTextController.text,
-                              passedList: productList);
-                        });
-                      },*/
-                      onSubmitted: (value) {
-                        setState(() {
-                          productListSearch = productProvider.searchQuery(
-                              searchText: searchTextController.text,
-                              passedList: productList);
-                        });
-                      },
-                    ),
-                    const SizedBox(
-                      height: 16,
-                    ),
-                    if (searchTextController.text.isNotEmpty &&
-                        productListSearch.isEmpty) ...[
-                      const Center(
-                        child: TitleText(
-                          label: 'no result found',
-                          fontSize: 40,
+                        const SizedBox(
+                          height: 16,
                         ),
-                      ),
-                    ],
-                    Expanded(
-                      child: DynamicHeightGridView(
-                        itemCount: searchTextController.text.isNotEmpty
-                            ? productListSearch.length
-                            : productList.length,
-                        builder: ((context, index) {
-                          return ProductItem(
-                            productID: searchTextController.text.isNotEmpty
-                                ? productListSearch[index].productID
-                                : productList[index].productID,
-                          );
-                        }),
-                        crossAxisCount: 2,
-                      ),
-                    )
-                  ],
-                ),
-              ),
+                        if (searchTextController.text.isNotEmpty &&
+                            productListSearch.isEmpty) ...[
+                          const Center(
+                            child: TitleText(
+                              label: 'no result found',
+                              fontSize: 40,
+                            ),
+                          ),
+                        ],
+                        Expanded(
+                          child: DynamicHeightGridView(
+                            itemCount: searchTextController.text.isNotEmpty
+                                ? productListSearch.length
+                                : productList.length,
+                            builder: ((context, index) {
+                              return ProductItem(
+                                productID: searchTextController.text.isNotEmpty
+                                    ? productListSearch[index].productID
+                                    : productList[index].productID,
+                              );
+                            }),
+                            crossAxisCount: 2,
+                          ),
+                        )
+                      ],
+                    ),
+                  );
+                }),
       ),
     );
   }

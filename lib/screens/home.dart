@@ -34,26 +34,36 @@ class HomeScreen extends StatelessWidget {
             const SizedBox(
               height: 16,
             ),
-            const Padding(
-              padding: EdgeInsets.only(left: 8),
-              child: TitleText(label: 'Latest arrival'),
+            Visibility(
+              visible: productProvider.getProducts.isNotEmpty,
+              child: const Padding(
+                padding: EdgeInsets.only(left: 8),
+                child: TitleText(label: 'Latest arrival'),
+              ),
             ),
             const SizedBox(
               height: 16,
             ),
-            SizedBox(
+            Visibility(
+              visible: productProvider.getProducts.isNotEmpty,
+              child: SizedBox(
                 height: size.height * 0.2,
                 child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: 5,
-                    itemBuilder: (context, index) {
-                      return ChangeNotifierProvider.value(
-                          value: productProvider.getProducts[index],
-                          child: LatestArrival(
-                            productID:
-                                productProvider.getProducts[index].productID,
-                          ));
-                    })),
+                  scrollDirection: Axis.horizontal,
+                  itemCount: productProvider.getProducts.length < 5
+                      ? productProvider.getProducts.length
+                      : 5,
+                  itemBuilder: (context, index) {
+                    return ChangeNotifierProvider.value(
+                      value: productProvider.getProducts[index],
+                      child: LatestArrival(
+                        productID: productProvider.getProducts[index].productID,
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ),
             const SizedBox(
               height: 16,
             ),
