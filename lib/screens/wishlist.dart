@@ -34,11 +34,10 @@ class WishList extends StatelessWidget {
                   IconButton(
                     onPressed: () {
                       AppMethods.alertDialog(
-                          
                           context: context,
                           label: 'clear your wishlist',
                           function: () {
-                            wishlistProvider.clearWishList();
+                            wishlistProvider.clearWishlistFirebase();
                           });
                     },
                     icon: const Icon(Icons.delete),

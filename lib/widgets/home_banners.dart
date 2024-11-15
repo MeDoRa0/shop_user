@@ -14,7 +14,8 @@ class HomeBannars extends StatelessWidget {
       height: size.height * 0.20,
       child: Swiper(
         autoplay: true,
-        duration: 500,
+        duration: 1000,
+        autoplayDelay: 10000,
         itemBuilder: (BuildContext context, int index) {
           return Image.asset(
             AppConstants.bannarsImages[index],

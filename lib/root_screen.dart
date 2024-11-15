@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shop_user/Providers/cart_provider.dart';
 import 'package:shop_user/Providers/product_provider.dart';
+import 'package:shop_user/Providers/wishlist_provider.dart';
 import 'package:shop_user/screens/cart_screen.dart';
 import 'package:shop_user/screens/home.dart';
 import 'package:shop_user/screens/profile_screen.dart';
@@ -37,14 +38,22 @@ class _RootScreenState extends State<RootScreen> {
     final productProvider =
         Provider.of<ProductProvider>(context, listen: false);
     final cartProvider = Provider.of<CartProvider>(context, listen: false);
+     final wishlistProvider = Provider.of<WishlistProvider>(context, listen: false);
     try {
       //we use future.wait so we can use two future function in same time
       Future.wait({
         productProvider.fetchProduct(),
       });
-      Future.wait({cartProvider.fetchCartFirebase()});
+      Future.wait(
+        {
+          cartProvider.fetchCartFirebase(),
+          wishlistProvider.fetchWishlistFirebase(),
+        },
+      );
     } catch (error) {
-      log(error.toString());
+      log(
+        error.toString(),
+      );
     } finally {
       isLoadingProd = false;
     }
