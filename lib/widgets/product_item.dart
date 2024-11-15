@@ -5,6 +5,7 @@ import 'package:shop_user/Providers/cart_provider.dart';
 import 'package:shop_user/Providers/product_provider.dart';
 import 'package:shop_user/Providers/viewd_recently_provider.dart';
 import 'package:shop_user/screens/inner_screens/product_details.dart';
+import 'package:shop_user/services/app_methods.dart';
 import 'package:shop_user/widgets/add_to_favorit.dart';
 import 'package:shop_user/widgets/subtitle_text.dart';
 import 'package:shop_user/widgets/title_text.dart';
@@ -66,13 +67,25 @@ class ProductItem extends StatelessWidget {
                             label: '${getCurrentProduct.productPrice}'),
                       ),
                       IconButton(
-                        onPressed: () {
+                        onPressed: () async {
                           if (cartProvider.isProductInCart(
                               productID: getCurrentProduct.productID)) {
                             return;
                           }
-                          cartProvider.addProductTocart(
-                              productID: getCurrentProduct.productID);
+                          // cartProvider.addProductTocart(
+                          //     productID: getCurrentProduct.productID);
+
+                          try {
+                            await cartProvider.addToCartFirebase(
+                                productID: getCurrentProduct.productID,
+                                quantity: 1,
+                                context: context);
+                          } catch (error) {
+                            AppMethods.errorDialog(
+                                context: context,
+                                label: error.toString(),
+                                function: () {});
+                          }
                         },
                         icon: Icon(
                           cartProvider.isProductInCart(productID: productID)

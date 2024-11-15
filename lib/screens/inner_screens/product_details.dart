@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:shop_user/Providers/cart_provider.dart';
 import 'package:shop_user/Providers/product_provider.dart';
 import 'package:shop_user/constants/app_colors.dart';
+import 'package:shop_user/services/app_methods.dart';
 
 import 'package:shop_user/widgets/add_to_favorit.dart';
 import 'package:shop_user/widgets/app_name_text.dart';
@@ -99,13 +100,25 @@ class _ProductDetailsState extends State<ProductDetails> {
                                       : Icons.add_shopping_cart,
                                   color: AppColors.lightScafoldColor,
                                 ),
-                                onPressed: () {
+                                onPressed: () async {
                                   if (cartProvider.isProductInCart(
-                                      productID: getCurrentProduct.productID)) {
-                                    return;
-                                  }
-                                  cartProvider.addProductTocart(
-                                      productID: getCurrentProduct.productID);
+                              productID: getCurrentProduct.productID)) {
+                            return;
+                          }
+                          // cartProvider.addProductTocart(
+                          //     productID: getCurrentProduct.productID);
+
+                          try {
+                            await cartProvider.addToCartFirebase(
+                                productID: getCurrentProduct.productID,
+                                quantity: 1,
+                                context: context);
+                          } catch (error) {
+                            AppMethods.errorDialog(
+                                context: context,
+                                label: error.toString(),
+                                function: () {});
+                          }
                                 },
                                 label: SubTitleText(
                                   label: cartProvider.isProductInCart(

@@ -59,6 +59,62 @@ class AppMethods {
     );
   }
 
+
+    static Future<void> optionalAlertDialog({
+    required BuildContext context,
+    required String label,
+    required Function function,
+  }) async {
+    await showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          actionsAlignment: MainAxisAlignment.center,
+          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Image.asset(
+                Assets.imagesWarning,
+                height: 60,
+                width: 60,
+              ),
+              const SizedBox(
+                height: 16,
+              ),
+              SubTitleText(
+                label: label,
+                fontWeight: FontWeight.w500,
+              ),
+              const SizedBox(
+                height: 16,
+              ),
+            ],
+          ),
+          actions: [
+            Visibility(
+              child: TextButton(
+                onPressed: () {
+                  function();
+                  Navigator.pop(context);
+                },
+                child: const TitleText(label: 'yes'),
+              ),
+            ),
+            Visibility(
+              child: TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: const TitleText(label: 'no'),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   static Future<void> alertDialog({
     required BuildContext context,
     required String label,

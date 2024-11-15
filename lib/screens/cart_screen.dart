@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:shop_user/Providers/cart_provider.dart';
 import 'package:shop_user/constants/assets.dart';
@@ -39,8 +40,11 @@ class CartScreen extends StatelessWidget {
                       AppMethods.alertDialog(
                           context: context,
                           label: 'clear your cart',
-                          function: () {
-                            cartProvider.clearLocalCart();
+                          function: () async {
+                            await cartProvider.clearCartFirebase();
+                            Fluttertoast.showToast(
+                                msg: 'all items removed from your cart',
+                                backgroundColor: Colors.red);
                           });
                     },
                     icon: const Icon(Icons.delete))

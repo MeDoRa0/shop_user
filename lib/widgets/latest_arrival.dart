@@ -6,6 +6,7 @@ import 'package:shop_user/Providers/product_provider.dart';
 import 'package:shop_user/Providers/viewd_recently_provider.dart';
 import 'package:shop_user/models/product_model.dart';
 import 'package:shop_user/screens/inner_screens/product_details.dart';
+import 'package:shop_user/services/app_methods.dart';
 import 'package:shop_user/widgets/add_to_favorit.dart';
 import 'package:shop_user/widgets/subtitle_text.dart';
 
@@ -64,13 +65,24 @@ class LatestArrival extends StatelessWidget {
                           children: [
                             AddToFavorit(productID: productModel.productID),
                             IconButton(
-                              onPressed: () {
+                              onPressed: () async {
                                 if (cartProvider.isProductInCart(
                                     productID: getCurrentProduct!.productID)) {
                                   return;
                                 }
-                                cartProvider.addProductTocart(
-                                    productID: getCurrentProduct.productID);
+                                //  cartProvider.addProductTocart(
+                                //  productID: getCurrentProduct.productID);
+                                try {
+                                  await cartProvider.addToCartFirebase(
+                                      productID: getCurrentProduct.productID,
+                                      quantity: 1,
+                                      context: context);
+                                } catch (error) {
+                                  AppMethods.errorDialog(
+                                      context: context,
+                                      label: error.toString(),
+                                      function: () {});
+                                }
                               },
                               icon: Icon(
                                 cartProvider.isProductInCart(

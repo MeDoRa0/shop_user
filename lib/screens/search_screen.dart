@@ -58,15 +58,15 @@ class _SearchScreenState extends State<SearchScreen> {
           ),
         ),
         body:
-            //  productList.isEmpty
-            //     ? const EmptyScreen(
-            //         imagePath: Assets.imagesBagShoppingCart,
-            //         title: 'no item available',
-            //         subtilte:
-            //             'we dont have what you want right now \n but we have another items you may like',
-            //         buttonText: 'shop now',
-            //       )
-            //     :
+             productList.isEmpty
+                ? const EmptyScreen(
+                    imagePath: Assets.imagesBagShoppingCart,
+                    title: 'no item available',
+                    subtilte:
+                        'we dont have what you want right now \n but we have another items you may like',
+                    buttonText: 'shop now',
+                  )
+                :
             StreamBuilder<List<ProductModel>>(
                 stream: productProvider.fetchProdStream(),
                 builder: (context, snapshot) {

@@ -53,14 +53,22 @@ class CartWidget extends StatelessWidget {
                               Column(
                                 children: [
                                   IconButton(
-                                    onPressed: () {
-                                      cartProvider.removeOneItem(
-                                          productID:
-                                              getCurrentProduct.productID);
+                                    onPressed: () async {
+                                      await cartProvider
+                                          .removeItemFromCartFirebase(
+                                              cartId: cartModelProvider.cartID,
+                                              productID: cartModelProvider.productID,
+                                              quantity:
+                                                  cartModelProvider.quantity);
+                                      // cartProvider.removeOneItem(
+                                      //     productID:
+                                      //         getCurrentProduct.productID);
                                     },
                                     icon: const Icon(Icons.delete),
                                   ),
-                                   AddToFavorit(productID:getCurrentProduct.productID ,)
+                                  AddToFavorit(
+                                    productID: getCurrentProduct.productID,
+                                  )
                                 ],
                               ),
                             ],

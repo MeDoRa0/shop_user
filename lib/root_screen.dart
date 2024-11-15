@@ -36,11 +36,13 @@ class _RootScreenState extends State<RootScreen> {
   Future<void> fetchFunc() async {
     final productProvider =
         Provider.of<ProductProvider>(context, listen: false);
+    final cartProvider = Provider.of<CartProvider>(context, listen: false);
     try {
       //we use future.wait so we can use two future function in same time
       Future.wait({
         productProvider.fetchProduct(),
       });
+      Future.wait({cartProvider.fetchCartFirebase()});
     } catch (error) {
       log(error.toString());
     } finally {
