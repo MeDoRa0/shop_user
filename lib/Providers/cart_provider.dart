@@ -114,7 +114,7 @@ class CartProvider with ChangeNotifier {
       _cartItems.remove(productID);
       await fetchCartFirebase();
       Fluttertoast.showToast(
-          msg: 'item has benn removed from your cart',
+          msg: 'item has been removed from your cart',
           backgroundColor: Colors.red);
     } catch (e) {
       rethrow;

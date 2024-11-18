@@ -6,7 +6,8 @@ import 'package:shop_user/widgets/subtitle_text.dart';
 import 'package:shop_user/widgets/title_text.dart';
 
 class BottomCheckout extends StatelessWidget {
-  const BottomCheckout({super.key});
+  const BottomCheckout({super.key, required this.function});
+  final Function function;
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +44,9 @@ class BottomCheckout extends StatelessWidget {
                 ],
               ),
               ElevatedButton(
-                onPressed: () {},
+                onPressed: () async {
+                  await function();
+                },
                 child: const SubTitleText(
                   label: 'Checkout',
                   color: Colors.green,

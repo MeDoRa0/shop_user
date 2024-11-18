@@ -120,7 +120,7 @@ class AppMethods {
     required String label,
     required Function function,
   }) async {
-    await showDialog(
+   await showDialog(
       context: context,
       builder: (context) {
         return AlertDialog(
@@ -130,7 +130,7 @@ class AppMethods {
             mainAxisSize: MainAxisSize.min,
             children: [
               Image.asset(
-                Assets.imagesWarning,
+                Assets.imagesError,
                 height: 60,
                 width: 60,
               ),
@@ -148,20 +148,13 @@ class AppMethods {
           ),
           actions: [
             Visibility(
+             
               child: TextButton(
                 onPressed: () {
                   function();
                   Navigator.pop(context);
                 },
-                child: const TitleText(label: 'yes'),
-              ),
-            ),
-            Visibility(
-              child: TextButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                child: const TitleText(label: 'no'),
+                child: const TitleText(label: 'ok'),
               ),
             ),
           ],

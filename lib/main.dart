@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shop_user/Providers/cart_provider.dart';
 import 'package:shop_user/Providers/image_provider.dart';
+import 'package:shop_user/Providers/order_provider.dart';
 import 'package:shop_user/Providers/product_provider.dart';
 import 'package:shop_user/Providers/theme_provider.dart';
 import 'package:shop_user/Providers/user_provider.dart';
@@ -32,12 +33,13 @@ class ShopUser extends StatelessWidget {
   Widget build(BuildContext context) {
     //final themeProvider = Provider.of<ThemeProvider>(context);
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: FutureBuilder(
           future: Firebase.initializeApp(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Scaffold(
-                body: CircularProgressIndicator(),
+                body: Center(child: CircularProgressIndicator(),),
               );
             } else if (snapshot.hasError) {
               return Scaffold(
@@ -70,11 +72,15 @@ class ShopUser extends StatelessWidget {
                 ChangeNotifierProvider(
                   create: (context) => UserProvider(),
                 ),
+                ChangeNotifierProvider(
+                  create: (context) => OrderProvider(),
+                ),
               ],
               //we can use Consumer to use ThemePovider
               child: Consumer<ThemeProvider>(
                 builder: (context, themeProvider, child) {
                   return MaterialApp(
+                    debugShowCheckedModeBanner: false,
                     theme: Styles.themeData(
                         isDarkTheme: themeProvider.getIsDarkTheme,
                         context: context),

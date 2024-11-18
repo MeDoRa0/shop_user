@@ -1,11 +1,16 @@
 import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
-import 'package:shop_user/constants/app_constants.dart';
+import 'package:provider/provider.dart';
+import 'package:shop_user/Providers/order_provider.dart';
+import 'package:shop_user/models/order_model.dart';
+import 'package:shop_user/services/app_methods.dart';
 import 'package:shop_user/widgets/subtitle_text.dart';
 import 'package:shop_user/widgets/title_text.dart';
 
 class OrderWidget extends StatefulWidget {
-  const OrderWidget({super.key});
+  const OrderWidget({super.key, required this.orderModel});
+
+  final OrderModel orderModel;
 
   @override
   State<OrderWidget> createState() => _OrderWidgetState();
@@ -13,11 +18,14 @@ class OrderWidget extends StatefulWidget {
 
 class _OrderWidgetState extends State<OrderWidget> {
   bool isLoading = false;
+
   @override
   Widget build(BuildContext context) {
+    final orderProvider = Provider.of<OrderProvider>(context);
+
     final size = MediaQuery.of(context).size;
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 2),
       child: Row(
         children: [
           ClipRRect(
@@ -25,7 +33,7 @@ class _OrderWidgetState extends State<OrderWidget> {
             child: FancyShimmerImage(
                 height: size.height * 0.20,
                 width: size.width * 0.30,
-                imageUrl: AppConstants.productImageUrl),
+                imageUrl: widget.orderModel.imageUrl),
           ),
           SizedBox(
             width: 16,
@@ -39,19 +47,30 @@ class _OrderWidgetState extends State<OrderWidget> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Flexible(
+                      Flexible(
                         child: TitleText(
-                          label: 'product title',
+                          label: widget.orderModel.productTitle,
                           maxLines: 2,
                         ),
                       ),
                       IconButton(
-                        onPressed: () {},
+                        onPressed: () async {
+                          setState(() {
+                            isLoading = true;
+                          });
+                          AppMethods.optionalAlertDialog(
+                              context: context,
+                              label: 'cancel this order',
+                              function: () async {
+                                await orderProvider.removeOrderFireBase(
+                                    widget.orderModel.orderId);
+                              });
+                        },
                         icon: const Icon(Icons.clear),
                       ),
                     ],
                   ),
-                  const Row(
+                  Row(
                     children: [
                       TitleText(
                         label: 'price:  ',
@@ -59,7 +78,7 @@ class _OrderWidgetState extends State<OrderWidget> {
                       ),
                       Flexible(
                         child: SubTitleText(
-                          label: '12,70',
+                          label: widget.orderModel.price.toString(),
                         ),
                       ),
                     ],
@@ -67,7 +86,7 @@ class _OrderWidgetState extends State<OrderWidget> {
                   const SizedBox(
                     height: 5,
                   ),
-                  const Row(
+                  Row(
                     children: [
                       Flexible(
                         child: TitleText(
@@ -77,7 +96,7 @@ class _OrderWidgetState extends State<OrderWidget> {
                       ),
                       Flexible(
                         child: SubTitleText(
-                          label: '1',
+                          label: widget.orderModel.quantity.toString(),
                           fontSize: 15,
                         ),
                       ),
